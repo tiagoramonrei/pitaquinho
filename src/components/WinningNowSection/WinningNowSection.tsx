@@ -189,7 +189,7 @@ export function WinningNowSection() {
     }
   }
 
-  // Touch events para mobile - let native scroll handle the movement
+  // Touch events para mobile
   const handleTouchStart = (e: React.TouchEvent) => {
     if (!cardsRef.current) return
     setIsDragging(true)
@@ -200,28 +200,18 @@ export function WinningNowSection() {
   }
 
   const handleTouchMove = (e: React.TouchEvent) => {
-    if (!cardsRef.current) return
+    if (!isDragging || !cardsRef.current) return
     const x = e.touches[0].pageX
-    dragDistance.current = startX.current - x
-    
-    // Impede scroll além dos limites
-    const maxScroll = cardsRef.current.scrollWidth - cardsRef.current.clientWidth
-    const currentScroll = cardsRef.current.scrollLeft
-    
-    if ((currentScroll <= 0 && dragDistance.current < 0) || 
-        (currentScroll >= maxScroll && dragDistance.current > 0)) {
-      e.preventDefault()
-    }
+    const walk = startX.current - x
+    dragDistance.current = walk
+    cardsRef.current.scrollLeft = scrollLeft.current + walk
   }
 
   const handleTouchEnd = () => {
+    if (!isDragging) return
     const delta = dragDistance.current
-    // Trigger snap before re-enabling scroll-snap for smoother transition
+    setIsDragging(false)
     snapToNearestCard(delta)
-    // Small delay before re-enabling scroll-snap
-    setTimeout(() => {
-      setIsDragging(false)
-    }, 100)
     resetAutoPlay()
   }
 

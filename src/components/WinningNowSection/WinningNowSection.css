@@ -55,9 +55,7 @@
   cursor: grab;
   user-select: none;
   touch-action: pan-x;
-  -webkit-overflow-scrolling: auto;
-  overscroll-behavior-x: none;
-  overscroll-behavior: none;
+  -webkit-overflow-scrolling: touch;
 }
 
 .winning-now-section__cards::-webkit-scrollbar {
@@ -67,6 +65,7 @@
 .winning-now-section__cards--dragging {
   cursor: grabbing;
   scroll-snap-type: none;
+  scroll-behavior: auto;
 }
 
 .winning-now-section__card {

@@ -18,6 +18,7 @@ const tabs: Tab[] = [
 
 export function ContentTabs() {
   const [activeTab, setActiveTab] = useState('promocoes')
+  const [isScrollLocked, setIsScrollLocked] = useState(false)
   const tabRefs = useRef<{ [key: string]: HTMLButtonElement | null }>({})
   const isClickScrolling = useRef(false)
 
@@ -66,8 +67,12 @@ export function ContentTabs() {
   }, [activeTab])
 
   const handleTabClick = (tab: Tab) => {
+    // Ignora clique se já está scrollando
+    if (isScrollLocked) return
+    
     // Marca que está scrollando por clique
     isClickScrolling.current = true
+    setIsScrollLocked(true)
     setActiveTab(tab.id)
 
     // Scrolla a tab clicada para o centro imediatamente
@@ -94,12 +99,14 @@ export function ContentTabs() {
         behavior: 'smooth'
       })
 
-      // Reativa o scroll spy após o scroll terminar
+      // Reativa o scroll spy e desbloqueia cliques após o scroll terminar
       setTimeout(() => {
         isClickScrolling.current = false
+        setIsScrollLocked(false)
       }, 800) // Tempo suficiente para o scroll smooth terminar
     } else {
       isClickScrolling.current = false
+      setIsScrollLocked(false)
     }
   }
 

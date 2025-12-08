@@ -176,7 +176,7 @@ export function PromotionSection() {
     }
   }
 
-  // Touch events para mobile - let native scroll handle the movement
+  // Touch events para mobile
   const handleTouchStart = (e: React.TouchEvent) => {
     if (!scrollRef.current) return
     setIsDragging(true)
@@ -186,28 +186,18 @@ export function PromotionSection() {
   }
 
   const handleTouchMove = (e: React.TouchEvent) => {
-    if (!scrollRef.current) return
+    if (!isDragging || !scrollRef.current) return
     const x = e.touches[0].pageX
-    dragDistance.current = startX.current - x // Positivo = arrastou para esquerda (próximo)
-    
-    // Impede scroll além dos limites
-    const maxScroll = scrollRef.current.scrollWidth - scrollRef.current.clientWidth
-    const currentScroll = scrollRef.current.scrollLeft
-    
-    if ((currentScroll <= 0 && dragDistance.current < 0) || 
-        (currentScroll >= maxScroll && dragDistance.current > 0)) {
-      e.preventDefault()
-    }
+    const walk = startX.current - x
+    dragDistance.current = walk
+    scrollRef.current.scrollLeft = scrollLeft.current + walk
   }
 
   const handleTouchEnd = () => {
+    if (!isDragging) return
     const delta = dragDistance.current
-    // Trigger snap before re-enabling scroll-snap for smoother transition
+    setIsDragging(false)
     snapToNearestCard(delta)
-    // Small delay before re-enabling scroll-snap
-    setTimeout(() => {
-      setIsDragging(false)
-    }, 100)
   }
 
   return (

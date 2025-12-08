@@ -81,20 +81,19 @@
   scroll-padding-left: 20px;
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
-  -webkit-overflow-scrolling: auto;
+  -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
   -ms-overflow-style: none;
   touch-action: pan-x;
   user-select: none;
   -webkit-user-select: none;
   cursor: grab;
-  overscroll-behavior-x: none;
-  overscroll-behavior: none;
 }
 
 .offers-section__list--dragging {
   cursor: grabbing;
   scroll-snap-type: none;
+  scroll-behavior: auto;
 }
 
 .offers-section__list::-webkit-scrollbar {

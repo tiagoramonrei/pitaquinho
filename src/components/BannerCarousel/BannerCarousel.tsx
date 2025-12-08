@@ -193,13 +193,16 @@ export function BannerCarousel() {
     if (!scrollRef.current) return
     setIsDragging(true)
     pauseAutoPlay()
+    dragDistance.current = 0
     startX.current = e.pageX - scrollRef.current.offsetLeft
     scrollLeft.current = scrollRef.current.scrollLeft
   }
 
   const handleMouseUp = () => {
+    if (!isDragging) return
+    const delta = dragDistance.current
     setIsDragging(false)
-    snapToNearestBanner()
+    snapToNearestBanner(delta)
     resetAutoPlay()
   }
 
@@ -208,18 +211,20 @@ export function BannerCarousel() {
     e.preventDefault()
     const x = e.pageX - scrollRef.current.offsetLeft
     const walk = (x - startX.current) * 1.5
+    dragDistance.current = -walk // Negativo porque walk é invertido
     scrollRef.current.scrollLeft = scrollLeft.current - walk
   }
 
   const handleMouseLeave = () => {
     if (isDragging) {
+      const delta = dragDistance.current
       setIsDragging(false)
-      snapToNearestBanner()
+      snapToNearestBanner(delta)
       resetAutoPlay()
     }
   }
 
-  // Touch events para mobile - let native scroll handle the movement
+  // Touch events para mobile
   const handleTouchStart = (e: React.TouchEvent) => {
     if (!scrollRef.current) return
     setIsDragging(true)
@@ -230,29 +235,18 @@ export function BannerCarousel() {
   }
 
   const handleTouchMove = (e: React.TouchEvent) => {
-    if (!scrollRef.current) return
+    if (!isDragging || !scrollRef.current) return
     const x = e.touches[0].pageX
-    dragDistance.current = startX.current - x // Positivo = arrastou para esquerda (próximo)
-    
-    // Impede scroll além dos limites
-    const maxScroll = scrollRef.current.scrollWidth - scrollRef.current.clientWidth
-    const currentScroll = scrollRef.current.scrollLeft
-    
-    // Se está no início e tentando ir mais para a esquerda, ou no fim e tentando ir para a direita
-    if ((currentScroll <= 0 && dragDistance.current < 0) || 
-        (currentScroll >= maxScroll && dragDistance.current > 0)) {
-      e.preventDefault()
-    }
+    const walk = startX.current - x
+    dragDistance.current = walk
+    scrollRef.current.scrollLeft = scrollLeft.current + walk
   }
 
   const handleTouchEnd = () => {
+    if (!isDragging) return
     const delta = dragDistance.current
-    // Trigger snap before re-enabling scroll-snap for smoother transition
+    setIsDragging(false)
     snapToNearestBanner(delta)
-    // Small delay before re-enabling scroll-snap
-    setTimeout(() => {
-      setIsDragging(false)
-    }, 100)
     resetAutoPlay()
   }
 
