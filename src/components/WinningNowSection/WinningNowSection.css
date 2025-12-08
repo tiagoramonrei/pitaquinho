@@ -54,7 +54,7 @@
   scroll-padding-left: 20px;
   cursor: grab;
   user-select: none;
-  touch-action: pan-x;
+  touch-action: pan-x pan-y;
   -webkit-overflow-scrolling: touch;
 }
 
