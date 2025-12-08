@@ -183,11 +183,12 @@ export function EscadinhaSection() {
 
   const handleTouchEnd = () => {
     const delta = dragDistance.current
-    setIsDragging(false)
-    // Trigger snap after CSS scroll-snap-type is re-enabled
+    // Trigger snap before re-enabling scroll-snap for smoother transition
+    snapToNearestCard(delta)
+    // Small delay before re-enabling scroll-snap
     setTimeout(() => {
-      snapToNearestCard(delta)
-    }, 50)
+      setIsDragging(false)
+    }, 100)
   }
 
   return (

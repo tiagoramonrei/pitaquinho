@@ -50,6 +50,7 @@
   scrollbar-width: none;
   -ms-overflow-style: none;
   scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
   scroll-padding-left: 20px;
   cursor: grab;
   user-select: none;
