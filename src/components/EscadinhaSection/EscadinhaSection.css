@@ -65,6 +65,7 @@
   user-select: none;
   -webkit-user-select: none;
   cursor: grab;
+  overscroll-behavior-x: none;
 }
 
 .escadinha-section__list--dragging {

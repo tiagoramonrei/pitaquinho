@@ -48,6 +48,7 @@
   user-select: none;
   -webkit-user-select: none;
   cursor: grab;
+  overscroll-behavior-x: none;
 }
 
 .promotion-section__list--dragging {
