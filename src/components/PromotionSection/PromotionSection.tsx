@@ -189,6 +189,15 @@ export function PromotionSection() {
     if (!scrollRef.current) return
     const x = e.touches[0].pageX
     dragDistance.current = startX.current - x // Positivo = arrastou para esquerda (próximo)
+    
+    // Impede scroll além dos limites
+    const maxScroll = scrollRef.current.scrollWidth - scrollRef.current.clientWidth
+    const currentScroll = scrollRef.current.scrollLeft
+    
+    if ((currentScroll <= 0 && dragDistance.current < 0) || 
+        (currentScroll >= maxScroll && dragDistance.current > 0)) {
+      e.preventDefault()
+    }
   }
 
   const handleTouchEnd = () => {

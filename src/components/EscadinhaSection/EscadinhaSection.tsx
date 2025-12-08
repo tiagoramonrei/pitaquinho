@@ -171,6 +171,7 @@ export function EscadinhaSection() {
   const handleTouchStart = (e: React.TouchEvent) => {
     if (!scrollRef.current) return
     setIsDragging(true)
+    dragDistance.current = 0
     startX.current = e.touches[0].pageX
     scrollLeft.current = scrollRef.current.scrollLeft
   }
@@ -179,6 +180,15 @@ export function EscadinhaSection() {
     if (!scrollRef.current) return
     const x = e.touches[0].pageX
     dragDistance.current = startX.current - x
+    
+    // Impede scroll além dos limites
+    const maxScroll = scrollRef.current.scrollWidth - scrollRef.current.clientWidth
+    const currentScroll = scrollRef.current.scrollLeft
+    
+    if ((currentScroll <= 0 && dragDistance.current < 0) || 
+        (currentScroll >= maxScroll && dragDistance.current > 0)) {
+      e.preventDefault()
+    }
   }
 
   const handleTouchEnd = () => {

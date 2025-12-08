@@ -194,6 +194,7 @@ export function WinningNowSection() {
     if (!cardsRef.current) return
     setIsDragging(true)
     pauseAutoPlay()
+    dragDistance.current = 0
     startX.current = e.touches[0].pageX
     scrollLeft.current = cardsRef.current.scrollLeft
   }
@@ -202,6 +203,15 @@ export function WinningNowSection() {
     if (!cardsRef.current) return
     const x = e.touches[0].pageX
     dragDistance.current = startX.current - x
+    
+    // Impede scroll além dos limites
+    const maxScroll = cardsRef.current.scrollWidth - cardsRef.current.clientWidth
+    const currentScroll = cardsRef.current.scrollLeft
+    
+    if ((currentScroll <= 0 && dragDistance.current < 0) || 
+        (currentScroll >= maxScroll && dragDistance.current > 0)) {
+      e.preventDefault()
+    }
   }
 
   const handleTouchEnd = () => {
