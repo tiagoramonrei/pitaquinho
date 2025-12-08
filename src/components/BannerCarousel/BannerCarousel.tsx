@@ -96,6 +96,7 @@ export function BannerCarousel() {
   const scrollRef = useRef<HTMLDivElement>(null)
   const startX = useRef(0)
   const scrollLeft = useRef(0)
+  const dragDistance = useRef(0)
   const autoPlayRef = useRef<ReturnType<typeof setInterval> | null>(null)
 
   // Função para iniciar o auto-play
@@ -158,13 +159,28 @@ export function BannerCarousel() {
     }
   }
 
-  // Centraliza no banner mais próximo
-  const snapToNearestBanner = () => {
+  // Centraliza no banner mais próximo com sensibilidade ao arraste
+  const snapToNearestBanner = (dragDelta: number = 0) => {
     if (!scrollRef.current) return
     const cardWidth = scrollRef.current.offsetWidth - 40 + 20
     const currentScroll = scrollRef.current.scrollLeft
-    const nearestIndex = Math.round(currentScroll / cardWidth)
-    const targetScroll = nearestIndex * cardWidth
+    const currentIndex = currentScroll / cardWidth
+    
+    let targetIndex: number
+    // Se arrastou mais que 30px, muda para o próximo/anterior
+    if (dragDelta > 30) {
+      targetIndex = Math.ceil(currentIndex)
+    } else if (dragDelta < -30) {
+      targetIndex = Math.floor(currentIndex)
+    } else {
+      targetIndex = Math.round(currentIndex)
+    }
+    
+    // Limita ao range válido
+    const maxIndex = Math.max(0, Math.ceil((scrollRef.current.scrollWidth - scrollRef.current.clientWidth) / cardWidth))
+    targetIndex = Math.max(0, Math.min(targetIndex, maxIndex))
+    
+    const targetScroll = targetIndex * cardWidth
     
     scrollRef.current.scrollTo({
       left: targetScroll,
@@ -203,23 +219,27 @@ export function BannerCarousel() {
     }
   }
 
-  // Touch events para mobile
   // Touch events para mobile - let native scroll handle the movement
-  const handleTouchStart = () => {
+  const handleTouchStart = (e: React.TouchEvent) => {
     if (!scrollRef.current) return
     setIsDragging(true)
     pauseAutoPlay()
+    startX.current = e.touches[0].pageX
+    scrollLeft.current = scrollRef.current.scrollLeft
   }
 
-  const handleTouchMove = () => {
-    // Just track that we're dragging, let native scroll handle movement
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!scrollRef.current) return
+    const x = e.touches[0].pageX
+    dragDistance.current = startX.current - x // Positivo = arrastou para esquerda (próximo)
   }
 
   const handleTouchEnd = () => {
+    const delta = dragDistance.current
     setIsDragging(false)
     // Trigger snap after CSS scroll-snap-type is re-enabled
     setTimeout(() => {
-      snapToNearestBanner()
+      snapToNearestBanner(delta)
     }, 50)
     resetAutoPlay()
   }

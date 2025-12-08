@@ -115,13 +115,28 @@ export function PromotionSection() {
     return activatedMissions[promoId]
   }
 
-  // Centraliza no card mais próximo
-  const snapToNearestCard = () => {
+  // Centraliza no card mais próximo com sensibilidade ao arraste
+  const snapToNearestCard = (dragDelta: number = 0) => {
     if (!scrollRef.current) return
     const cardWidth = 304 + 8 // width + gap
     const currentScroll = scrollRef.current.scrollLeft
-    const nearestIndex = Math.round(currentScroll / cardWidth)
-    const targetScroll = nearestIndex * cardWidth
+    const currentIndex = currentScroll / cardWidth
+    
+    let targetIndex: number
+    // Se arrastou mais que 30px, muda para o próximo/anterior
+    if (dragDelta > 30) {
+      targetIndex = Math.ceil(currentIndex)
+    } else if (dragDelta < -30) {
+      targetIndex = Math.floor(currentIndex)
+    } else {
+      targetIndex = Math.round(currentIndex)
+    }
+    
+    // Limita ao range válido
+    const maxIndex = Math.max(0, Math.ceil((scrollRef.current.scrollWidth - scrollRef.current.clientWidth) / cardWidth))
+    targetIndex = Math.max(0, Math.min(targetIndex, maxIndex))
+    
+    const targetScroll = targetIndex * cardWidth
     
     scrollRef.current.scrollTo({
       left: targetScroll,
@@ -139,8 +154,9 @@ export function PromotionSection() {
   }
 
   const handleMouseUp = () => {
+    const delta = scrollRef.current ? scrollRef.current.scrollLeft - scrollLeft.current : 0
     setIsDragging(false)
-    snapToNearestCard()
+    snapToNearestCard(delta)
   }
 
   const handleMouseMove = (e: React.MouseEvent) => {
@@ -154,8 +170,9 @@ export function PromotionSection() {
 
   const handleMouseLeave = () => {
     if (isDragging) {
+      const delta = scrollRef.current ? scrollRef.current.scrollLeft - scrollLeft.current : 0
       setIsDragging(false)
-      snapToNearestCard()
+      snapToNearestCard(delta)
     }
   }
 
@@ -165,19 +182,21 @@ export function PromotionSection() {
     setIsDragging(true)
     dragDistance.current = 0
     startX.current = e.touches[0].pageX
+    scrollLeft.current = scrollRef.current.scrollLeft
   }
 
   const handleTouchMove = (e: React.TouchEvent) => {
     if (!scrollRef.current) return
     const x = e.touches[0].pageX
-    dragDistance.current = Math.abs(x - startX.current)
+    dragDistance.current = startX.current - x // Positivo = arrastou para esquerda (próximo)
   }
 
   const handleTouchEnd = () => {
+    const delta = dragDistance.current
     setIsDragging(false)
     // Trigger snap after CSS scroll-snap-type is re-enabled
     setTimeout(() => {
-      snapToNearestCard()
+      snapToNearestCard(delta)
     }, 50)
   }
 

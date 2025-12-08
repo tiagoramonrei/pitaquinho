@@ -76,6 +76,7 @@ export function WinningNowSection() {
   const cardsRef = useRef<HTMLDivElement>(null)
   const startX = useRef(0)
   const scrollLeft = useRef(0)
+  const dragDistance = useRef(0)
   const autoPlayRef = useRef<ReturnType<typeof setInterval> | null>(null)
 
   // Scroll para o próximo card e adiciona novo winner
@@ -127,12 +128,27 @@ export function WinningNowSection() {
     startAutoPlay()
   }, [startAutoPlay])
 
-  // Centraliza no card mais próximo
-  const snapToNearestCard = () => {
+  // Centraliza no card mais próximo com sensibilidade ao arraste
+  const snapToNearestCard = (dragDelta: number = 0) => {
     if (!cardsRef.current) return
     const currentScroll = cardsRef.current.scrollLeft
-    const nearestIndex = Math.round(currentScroll / CARD_WIDTH)
-    const targetScroll = nearestIndex * CARD_WIDTH
+    const currentIndex = currentScroll / CARD_WIDTH
+    
+    let targetIndex: number
+    // Se arrastou mais que 30px, muda para o próximo/anterior
+    if (dragDelta > 30) {
+      targetIndex = Math.ceil(currentIndex)
+    } else if (dragDelta < -30) {
+      targetIndex = Math.floor(currentIndex)
+    } else {
+      targetIndex = Math.round(currentIndex)
+    }
+    
+    // Limita ao range válido
+    const maxIndex = Math.max(0, Math.ceil((cardsRef.current.scrollWidth - cardsRef.current.clientWidth) / CARD_WIDTH))
+    targetIndex = Math.max(0, Math.min(targetIndex, maxIndex))
+    
+    const targetScroll = targetIndex * CARD_WIDTH
     
     cardsRef.current.scrollTo({
       left: targetScroll,
@@ -150,8 +166,9 @@ export function WinningNowSection() {
   }
 
   const handleMouseUp = () => {
+    const delta = cardsRef.current ? cardsRef.current.scrollLeft - scrollLeft.current : 0
     setIsDragging(false)
-    snapToNearestCard()
+    snapToNearestCard(delta)
     resetAutoPlay()
   }
 
@@ -165,28 +182,34 @@ export function WinningNowSection() {
 
   const handleMouseLeave = () => {
     if (isDragging) {
+      const delta = cardsRef.current ? cardsRef.current.scrollLeft - scrollLeft.current : 0
       setIsDragging(false)
-      snapToNearestCard()
+      snapToNearestCard(delta)
       resetAutoPlay()
     }
   }
 
   // Touch events para mobile - let native scroll handle the movement
-  const handleTouchStart = () => {
+  const handleTouchStart = (e: React.TouchEvent) => {
     if (!cardsRef.current) return
     setIsDragging(true)
     pauseAutoPlay()
+    startX.current = e.touches[0].pageX
+    scrollLeft.current = cardsRef.current.scrollLeft
   }
 
-  const handleTouchMove = () => {
-    // Just track that we're dragging, let native scroll handle movement
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!cardsRef.current) return
+    const x = e.touches[0].pageX
+    dragDistance.current = startX.current - x
   }
 
   const handleTouchEnd = () => {
+    const delta = dragDistance.current
     setIsDragging(false)
     // Trigger snap after CSS scroll-snap-type is re-enabled
     setTimeout(() => {
-      snapToNearestCard()
+      snapToNearestCard(delta)
     }, 50)
     resetAutoPlay()
   }

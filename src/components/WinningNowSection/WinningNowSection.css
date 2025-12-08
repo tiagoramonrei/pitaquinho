@@ -54,6 +54,7 @@
   cursor: grab;
   user-select: none;
   touch-action: pan-x;
+  overscroll-behavior-x: contain;
 }
 
 .winning-now-section__cards::-webkit-scrollbar {
