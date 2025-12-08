@@ -1,0 +1,281 @@
+.banner-carousel {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.banner-carousel__list {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0 20px;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  touch-action: pan-x;
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: grab;
+}
+
+.banner-carousel__list--dragging {
+  cursor: grabbing;
+  scroll-snap-type: none;
+}
+
+.banner-carousel__list::-webkit-scrollbar {
+  display: none;
+}
+
+/* Banner Card */
+.banner-card {
+  flex-shrink: 0;
+  width: calc(100vw - 40px);
+  scroll-snap-align: center;
+}
+
+.banner-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #123b24;
+  padding: 8px 20px;
+  border-radius: 4px 4px 0 0;
+  height: 28px;
+  box-sizing: border-box;
+}
+
+.banner-card__header-left {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.banner-card__header-right {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 400;
+  color: #ffffff;
+}
+
+.banner-card__timer-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #AD0924;
+}
+
+.banner-card__content {
+  height: 140px;
+  border-radius: 0 0 8px 8px;
+  background-size: cover;
+  background-position: center;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.banner-card__info {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 150px;
+}
+
+.banner-card__info--full {
+  width: 100%;
+}
+
+.banner-card__info--full .banner-card__text {
+  width: 147px;
+}
+
+.banner-card__text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.banner-card__title {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+  line-height: 1.36;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.banner-card__boost-icon {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+}
+
+.banner-card__description {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  color: #ffffff;
+  margin: 0;
+  line-height: 1.08;
+}
+
+/* Buttons */
+.banner-card__buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.banner-card__btn {
+  height: 32px;
+  padding: 10px 14px;
+  background-color: #123b24;
+  border: none;
+  border-radius: 1000px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  color: #ffffff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+}
+
+.banner-card__btn--icon {
+  width: 32px;
+  padding: 0;
+}
+
+.banner-card__btn--icon img {
+  width: 24px;
+  height: 24px;
+}
+
+/* Odds 1x2 */
+.banner-card__odds {
+  display: flex;
+  gap: 4px;
+  width: 100%;
+}
+
+.banner-card__odd-btn {
+  flex: 1;
+  min-height: 32px;
+  background-color: #123b24;
+  border: none;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0 4px;
+}
+
+.banner-card__odd-team {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  color: #ffffff;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.banner-card__odd-value {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+/* Boosted Odd */
+.banner-card__boosted-btn {
+  width: 100%;
+  height: 32px;
+  background-color: #123b24;
+  border: none;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.banner-card__old-odd {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  color: #ffffff;
+  text-decoration: line-through;
+}
+
+.banner-card__arrow {
+  width: 12px;
+  height: 12px;
+}
+
+.banner-card__new-odd {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+/* Bullets */
+.banner-carousel__bullets {
+  display: flex;
+  justify-content: flex-start;
+  gap: 6px;
+  padding: 0 20px;
+}
+
+.banner-carousel__bullet {
+  width: 6px;
+  height: 6px;
+  border-radius: 3px;
+  background-color: rgba(0, 0, 0, 0.32);
+  transition: width 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.banner-carousel__bullet--active {
+  width: 16px;
+  background-color: rgba(0, 0, 0, 0.32);
+}
+
+.banner-carousel__bullet-progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0;
+  background-color: #000000;
+  border-radius: 3px;
+  animation: bulletProgress 8s linear forwards;
+}
+
+@keyframes bulletProgress {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+

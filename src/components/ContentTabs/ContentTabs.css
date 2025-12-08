@@ -1,0 +1,51 @@
+.content-tabs {
+  background-color: #171717;
+  width: 100%;
+  position: sticky;
+  top: 80px;
+  z-index: 99;
+}
+
+.content-tabs__list {
+  display: flex;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.content-tabs__list::-webkit-scrollbar {
+  display: none;
+}
+
+.content-tabs__item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  padding: 0 20px;
+  background: none;
+  border: none;
+  border-bottom: 1px solid #242424;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.content-tabs__label {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  color: #d9d9d9;
+  line-height: 1;
+  white-space: nowrap;
+  padding-bottom: 13px;
+  margin-bottom: -13px;
+  border-bottom: 2px solid transparent;
+}
+
+/* Tab ativa */
+.content-tabs__item--active .content-tabs__label {
+  color: #ffffff;
+  border-bottom-color: #32a866;
+}
+

@@ -1,0 +1,2 @@
+export { ContentTabs } from './ContentTabs'
+

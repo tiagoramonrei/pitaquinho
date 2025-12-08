@@ -1,0 +1,14 @@
+.home {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #171717;
+  padding-top: 80px;
+  padding-bottom: 60px;
+}
+
+.home__content {
+  flex: 1;
+  padding: 0;
+}
+

@@ -1,0 +1,1 @@
+export { EscadinhaSection } from './EscadinhaSection'

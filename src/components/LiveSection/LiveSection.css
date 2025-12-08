@@ -1,0 +1,448 @@
+.live-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 28px 0;
+  border-bottom: 2px solid #242424;
+}
+
+/* Header */
+.live-section__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  height: 20px;
+}
+
+.live-section__title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.live-section__title span {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.4;
+}
+
+.live-section__icon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+.live-section__arrow {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+/* Chips */
+.live-section__chips {
+  display: flex;
+  gap: 8px;
+  padding: 0 20px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.live-section__chips::-webkit-scrollbar {
+  display: none;
+}
+
+.live-section__chips--sticky {
+  position: sticky;
+  top: 120px; /* Header (80px) + ContentTabs (40px) */
+  background-color: #171717;
+  z-index: 98;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  margin-top: -8px;
+}
+
+.live-section__chip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 24px;
+  padding: 7px 16px;
+  border-radius: 100px;
+  border: 2px solid #1e1e1e;
+  background: transparent;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.live-section__chip span {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  color: #d9d9d9;
+  white-space: nowrap;
+}
+
+.live-section__chip--active {
+  background-color: #164c2e;
+  border: 2px solid #32a866;
+}
+
+.live-section__chip--active span {
+  color: #ffffff;
+}
+
+.live-section__chip--disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.live-section__chip-icon {
+  width: 12px;
+  height: 12px;
+  object-fit: contain;
+}
+
+/* Leagues */
+.live-section__leagues {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.live-section__league {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 8px;
+  position: relative;
+}
+
+.live-section__league--open {
+  margin-bottom: 28px;
+}
+
+.live-section__league:last-child.live-section__league--open {
+  margin-bottom: 8px;
+}
+
+.live-section__league::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 20px;
+  right: 20px;
+  height: 1px;
+  background-color: #1e1e1e;
+}
+
+.live-section__league--open::after {
+  display: none;
+}
+
+.live-section__league-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 20px;
+  height: 32px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.live-section__league-title {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.live-section__league-title span {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  color: #ffffff;
+  white-space: nowrap;
+}
+
+.live-section__league-flag {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+}
+
+.live-section__league-flag--placeholder {
+  width: 16px;
+  height: 16px;
+  background-color: #3a3a3a;
+  border-radius: 2px;
+}
+
+.live-section__accordion-icon {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+  transition: transform 0.2s ease;
+  transform: rotate(180deg);
+}
+
+.live-section__accordion-icon--open {
+  transform: rotate(0deg);
+}
+
+/* Matches Wrapper (for animation) */
+.live-section__matches-wrapper {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.3s ease;
+}
+
+.live-section__matches-wrapper--open {
+  grid-template-rows: 1fr;
+}
+
+.live-section__matches-inner {
+  overflow: hidden;
+}
+
+/* Matches */
+.live-section__matches {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0 20px;
+}
+
+.live-section__match {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 12px;
+  background-color: #1e1e1e;
+  border-radius: 8px;
+}
+
+.live-section__match-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.live-section__match-time {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.live-section__match-time span {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.live-section__match-live-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 12px;
+  height: 12px;
+  isolation: isolate;
+}
+
+.live-section__match-live-wrapper::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 6px;
+  height: 6px;
+  background-color: transparent;
+  border: 0.5px solid #32a866;
+  border-radius: 50%;
+  animation: ping-live 6s linear infinite;
+  z-index: 0;
+}
+
+.live-section__match-live-icon {
+  width: 12px;
+  height: 12px;
+  object-fit: contain;
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes ping-live {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+  33.33% {
+    transform: translate(-50%, -50%) scale(3);
+    opacity: 0;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0;
+  }
+}
+
+.live-section__match-arrow {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+/* Teams */
+.live-section__teams {
+  display: flex;
+  flex-direction: column;
+}
+
+.live-section__team {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.live-section__team-info {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex: 1;
+}
+
+.live-section__team-icon {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+}
+
+.live-section__team-icon--placeholder {
+  width: 16px;
+  height: 16px;
+  background-color: #3a3a3a;
+  border-radius: 2px;
+}
+
+.live-section__team-icon--basketball-default {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+  border-radius: 100%;
+}
+
+.live-section__team-icon--basketball-home {
+  border: 1px solid #00A0DD;
+}
+
+.live-section__team-icon--basketball-away {
+  border: 1px solid #AD0924;
+}
+
+.live-section__team-name {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  color: #ffffff;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.live-section__team-score {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 16px;
+  border: 1px solid #242424;
+  border-radius: 4px;
+}
+
+.live-section__team-score span {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+/* Odds */
+.live-section__odds {
+  display: flex;
+  gap: 4px;
+  width: 100%;
+}
+
+.live-section__odd-btn {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0px;
+  height: 32px;
+  padding: 0 8px;
+  background-color: #242424;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.live-section__odd-team {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  color: #ffffff;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+.live-section__odd-value {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  color: #32a866;
+}
+
+/* More Button */
+.live-section__more {
+  padding: 0 20px;
+}
+
+.live-section__more-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  padding: 14px 16px;
+  background: transparent;
+  border: 1px solid #19954f;
+  border-radius: 1000px;
+  cursor: pointer;
+}
+
+.live-section__more-btn span {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  color: #19954f;
+  white-space: nowrap;
+}
+
+.live-section__more-icon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+

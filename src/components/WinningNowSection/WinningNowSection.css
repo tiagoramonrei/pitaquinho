@@ -1,0 +1,137 @@
+.winning-now-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 28px 0;
+  background-color: #171717;
+}
+
+/* Header */
+.winning-now-section__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  height: 20px;
+}
+
+.winning-now-section__title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.winning-now-section__title span {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.4;
+}
+
+.winning-now-section__icon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+.winning-now-section__arrow {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+/* Cards */
+.winning-now-section__cards {
+  display: flex;
+  gap: 8px;
+  padding: 0 20px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  scroll-snap-type: x mandatory;
+  scroll-padding-left: 20px;
+  cursor: grab;
+  user-select: none;
+  touch-action: pan-x;
+}
+
+.winning-now-section__cards::-webkit-scrollbar {
+  display: none;
+}
+
+.winning-now-section__cards--dragging {
+  cursor: grabbing;
+  scroll-snap-type: none;
+}
+
+.winning-now-section__card {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 280px;
+  height: 72px;
+  padding: 8px;
+  padding-right: 12px;
+  background-color: #1e1e1e;
+  border-radius: 8px;
+  flex-shrink: 0;
+  scroll-snap-align: start;
+}
+
+.winning-now-section__card-image {
+  width: 75px;
+  height: 56px;
+  object-fit: cover;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.winning-now-section__card-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+  height: 54px;
+  min-width: 0;
+}
+
+.winning-now-section__card-game {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.winning-now-section__card-prize {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 30px;
+}
+
+.winning-now-section__card-winner {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 400;
+  color: #e3e3e3;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.winning-now-section__card-winner strong {
+  font-weight: 700;
+}
+
+.winning-now-section__card-amount {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: #32a866;
+  line-height: 1.4;
+}
+

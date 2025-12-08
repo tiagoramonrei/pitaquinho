@@ -1,0 +1,633 @@
+.offers-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 28px 0;
+  border-bottom: 2px solid #242424;
+}
+
+/* Header */
+.offers-section__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 18px 0 20px;
+  height: 20px;
+}
+
+.offers-section__title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.4;
+}
+
+.offers-section__icon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+.offers-section__arrow {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+/* Filter Chips */
+.offers-section__filters {
+  display: flex;
+  gap: 8px;
+  padding: 0 20px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.offers-section__filters::-webkit-scrollbar {
+  display: none;
+}
+
+.offers-section__chip {
+  flex-shrink: 0;
+  height: 24px;
+  padding: 0 16px;
+  border-radius: 100px;
+  border: 2px solid #242424;
+  background: transparent;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  color: #d9d9d9;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.offers-section__chip--active {
+  background-color: #164c2e;
+  border-color: #32a866;
+  color: #ffffff;
+}
+
+/* Cards List - slider horizontal */
+.offers-section__list {
+  display: flex;
+  gap: 8px;
+  padding: 0 20px;
+  overflow-x: auto;
+  scroll-padding-left: 20px;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  touch-action: pan-x;
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: grab;
+}
+
+.offers-section__list--dragging {
+  cursor: grabbing;
+  scroll-snap-type: none;
+}
+
+.offers-section__list::-webkit-scrollbar {
+  display: none;
+}
+
+/* Offer Card */
+.offer-card {
+  flex-shrink: 0;
+  width: 304px;
+  scroll-snap-align: start;
+  background-color: #1e1e1e;
+  border-radius: 8px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: relative;
+}
+
+/* Border gradiente */
+.offer-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 8px;
+  padding: 1px;
+  background: linear-gradient(to top right, rgba(30, 30, 30, 1) 0%, rgba(30, 30, 30, 1) 64%, rgba(217, 35, 65, 1) 100%);
+  -webkit-mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* Super Aumentada - gradiente azul */
+.offer-card--super-aumentada::before {
+  background: linear-gradient(to top right, rgba(30, 30, 30, 1) 0%, rgba(30, 30, 30, 1) 64%, rgba(37, 195, 255, 1) 100%);
+}
+
+/* Aumentada - gradiente amarelo */
+.offer-card--aumentada::before {
+  background: linear-gradient(to top right, rgba(30, 30, 30, 1) 0%, rgba(30, 30, 30, 1) 64%, rgba(255, 226, 118, 1) 100%);
+}
+
+/* Pechincha - gradiente verde */
+.offer-card--pechincha::before {
+  background: linear-gradient(to top right, rgba(30, 30, 30, 1) 0%, rgba(30, 30, 30, 1) 64%, rgba(32, 212, 144, 1) 100%);
+}
+
+.offer-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.offer-card__title {
+  flex: 1;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.offer-card__tag {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.offer-card__tag-icon {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+}
+
+/* Subheader */
+.offer-card__subheader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 12px;
+}
+
+.offer-card__subtitle {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 400;
+  color: #ffffff;
+  opacity: 0.56;
+}
+
+.offer-card__date {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  color: #ffffff;
+  opacity: 0.56;
+}
+
+/* Events (Combinada) */
+.offer-card__events {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-left: 0;
+  min-height: 40px;
+}
+
+/* Linha tracejada vertical */
+.offer-card__events::before {
+  content: '';
+  position: absolute;
+  left: 5.5px;
+  top: 6px;
+  bottom: 6px;
+  width: 1px;
+  border-left: 1px dashed #646464;
+  z-index: 0;
+}
+
+.offer-card__event {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.offer-card__event-icon {
+  width: 12px;
+  height: 12px;
+  object-fit: contain;
+  position: relative;
+  z-index: 2;
+  background-color: #1e1e1e;
+  border-radius: 50%;
+}
+
+.offer-card__event-info {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.offer-card__event-team {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.offer-card__event-dot {
+  font-size: 8px;
+  color: #ffffff;
+}
+
+.offer-card__event-market {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 400;
+  color: #e3e3e3;
+}
+
+.offer-card__event-vs {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  color: #d9d9d9;
+}
+
+/* Player */
+.offer-card__player {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-height: 58px;
+}
+
+.offer-card__player-avatar {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+}
+
+.offer-card__player-img {
+  width: 40px;
+  height: 40px;
+  border-radius: 100px;
+  object-fit: cover;
+  background-color: #242424;
+}
+
+.offer-card__player-badge {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  background-color: #242424;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
+
+.offer-card__player-badge img {
+  width: 12px;
+  height: 12px;
+}
+
+.offer-card__player-badge--sport {
+  bottom: -4px;
+  right: -8px;
+  border-radius: 100px;
+}
+
+.offer-card__player-badge--stat {
+  top: 0px;
+  right: -8px;
+  border-radius: 4px;
+}
+
+.offer-card__player-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  max-width: 50%;
+}
+
+.offer-card__player-name {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.offer-card__player-team {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 400;
+  color: #ffffff;
+}
+
+.offer-card__player-stat {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  min-width: 0;
+  max-width: 50%;
+}
+
+.offer-card__player-stat-value {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.4;
+  text-align: right;
+}
+
+.offer-card__player-stat-label {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 400;
+  color: #ffffff;
+  text-align: right;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  display: block;
+}
+
+/* Button */
+.offer-card__button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  background-color: #242424;
+  border-radius: 10px;
+  width: 100%;
+}
+
+.offer-card__odds {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.offer-card__old-odd {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  color: #32a866;
+  text-decoration: line-through;
+}
+
+.offer-card__boost-icon {
+  width: 12px;
+  height: 12px;
+  object-fit: contain;
+}
+
+.offer-card__new-odd {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  color: #32a866;
+}
+
+/* Player Events (para combinadas com jogadores) */
+.offer-card__player-events {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.offer-card__player-events::before {
+  content: '';
+  position: absolute;
+  left: 5.5px;
+  top: 6px;
+  bottom: 6px;
+  width: 0;
+  border-left: 1px dashed #646464;
+}
+
+.offer-card__player-event {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  position: relative;
+  z-index: 1;
+}
+
+.offer-card__player-event-icon {
+  width: 12px;
+  height: 12px;
+  object-fit: contain;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 2;
+  background-color: #1e1e1e;
+  border-radius: 50%;
+}
+
+.offer-card__player-event-info {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.offer-card__player-event-name {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  color: #ffffff;
+  white-space: nowrap;
+}
+
+.offer-card__player-event-dot {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  color: #ffffff;
+}
+
+.offer-card__player-event-value {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  color: #ffffff;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.offer-card__player-event-arrow {
+  width: 12px;
+  height: 12px;
+  object-fit: contain;
+}
+
+.offer-card__player-event-old-value {
+  color: rgba(255, 255, 255, 0.56);
+  text-decoration: line-through;
+}
+
+.offer-card__player-event-new-value {
+  color: #ffffff;
+}
+
+.offer-card__player-event-market {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 400;
+  color: #a0a0a0;
+  white-space: nowrap;
+}
+
+/* Footer com Ver todos */
+.offer-card__footer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.offer-card__footer--with-viewall {
+  justify-content: space-between;
+}
+
+.offer-card__footer--with-viewall .offer-card__button {
+  width: 140px;
+  flex-shrink: 0;
+  flex-grow: 0;
+}
+
+.offer-card__viewall {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.offer-card__viewall span {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  color: #32a866;
+}
+
+.offer-card__viewall-icon {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+}
+
+/* Team Stat (for team-based super aumentada) */
+.offer-card__team-stat {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 58px;
+}
+
+.offer-card__team-stat-avatar {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+}
+
+.offer-card__team-stat-avatar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 40px;
+  height: 40px;
+  background-color: #242424;
+  border-radius: 50%;
+}
+
+.offer-card__team-stat-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  z-index: 1;
+}
+
+.offer-card__team-stat-badge {
+  position: absolute;
+  bottom: -2px;
+  right: -4px;
+  width: 16px;
+  height: 16px;
+  background-color: #242424;
+  border-radius: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
+.offer-card__team-stat-badge img {
+  width: 12px;
+  height: 12px;
+}
+
+.offer-card__team-stat-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.offer-card__team-stat-value {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.4;
+}
+
+.offer-card__team-stat-name {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 400;
+  color: #a0a0a0;
+  line-height: 1;
+}
+

@@ -1,0 +1,373 @@
+.escadinha-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 28px 0;
+  border-bottom: 2px solid #242424;
+}
+
+/* Header */
+.escadinha-section__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 18px 0 20px;
+  height: 20px;
+}
+
+.escadinha-section__title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.4;
+}
+
+.escadinha-section__icon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+.escadinha-section__tag {
+  background-color: #32a866;
+  padding: 3px 4px;
+  border-radius: 2px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 8px;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1;
+}
+
+.escadinha-section__info {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+/* Cards List - slider horizontal */
+.escadinha-section__list {
+  display: flex;
+  gap: 8px;
+  padding: 0 20px;
+  overflow-x: auto;
+  scroll-padding-left: 20px;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  touch-action: pan-x;
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: grab;
+}
+
+.escadinha-section__list--dragging {
+  cursor: grabbing;
+  scroll-snap-type: none;
+}
+
+.escadinha-section__list::-webkit-scrollbar {
+  display: none;
+}
+
+/* Escadinha Card */
+.escadinha-card {
+  flex-shrink: 0;
+  width: 304px;
+  scroll-snap-align: start;
+  background-color: #1e1e1e;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Card Header */
+.escadinha-card__header {
+  padding: 12px;
+  background-size: cover;
+  background-position: center;
+  border-bottom: 1px solid #242424;
+}
+
+.escadinha-card__info {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Match Info */
+.escadinha-card__match {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.escadinha-card__shields {
+  display: flex;
+  position: relative;
+  width: 24px;
+}
+
+.escadinha-card__shield {
+  width: 12px;
+  height: 12px;
+  object-fit: contain;
+}
+
+.escadinha-card__shield--back {
+  position: relative;
+  z-index: 1;
+}
+
+.escadinha-card__shield--front {
+  position: relative;
+  margin-left: -4px;
+  z-index: 2;
+}
+
+.escadinha-card__match-name {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 400;
+  color: #ffffff;
+  line-height: 1;
+}
+
+/* Player Info */
+.escadinha-card__player {
+  display: flex;
+  flex-direction: column;
+}
+
+.escadinha-card__player-name {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.4;
+}
+
+.escadinha-card__player-avatar {
+  width: 12.5px;
+  height: 12.5px;
+  object-fit: contain;
+}
+
+.escadinha-card__player-position {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 400;
+  color: #ffffff;
+  line-height: 1;
+}
+
+/* Card Body */
+.escadinha-card__body {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Stats Chips */
+.escadinha-card__stats-wrapper {
+  width: calc(100% + 24px);
+  margin-left: -12px;
+  margin-right: -12px;
+  padding: 0 12px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.escadinha-card__stats-wrapper::-webkit-scrollbar {
+  display: none;
+}
+
+.escadinha-card__stats {
+  display: flex;
+  gap: 8px;
+  min-width: 100%;
+}
+
+.escadinha-card__stats::after {
+  content: '';
+  flex-shrink: 0;
+  width: 12px;
+}
+
+.escadinha-card__stat {
+  flex: 1 0 auto;
+  height: 24px;
+  padding: 0 16px;
+  border-radius: 100px;
+  border: 1px solid #242424;
+  background: transparent;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  color: #e3e3e3;
+  white-space: nowrap;
+  cursor: pointer;
+  text-align: center;
+}
+
+.escadinha-card__stat--active {
+  background-color: #164c2e;
+  border: 2px solid #19954f;
+  color: #ffffff;
+}
+
+/* Range Slider */
+.escadinha-card__slider {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+/* Track */
+.escadinha-card__track {
+  position: relative;
+  height: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.escadinha-card__track-bg {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 10px;
+  background-color: #242424;
+  transform: translateY(-50%);
+  border-radius: 5px;
+}
+
+.escadinha-card__track-active {
+  position: absolute;
+  top: 50%;
+  height: 10px;
+  background-color: #32a866;
+  transform: translateY(-50%);
+  border-radius: 5px;
+  z-index: 1;
+}
+
+/* Handles (circles at range edges) */
+.escadinha-card__handle {
+  position: absolute;
+  top: 50%;
+  width: 20px;
+  height: 20px;
+  background-color: #32a866;
+  border: 2.5px solid #1e1e1e;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 4;
+  box-sizing: content-box;
+}
+
+/* Tick marks */
+.escadinha-card__ticks {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.escadinha-card__tick {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.escadinha-card__tick::after {
+  content: '';
+  width: 6px;
+  height: 6px;
+  background-color: #373737;
+  border-radius: 50%;
+}
+
+.escadinha-card__tick--active::after {
+  background-color: #32a866;
+}
+
+/* Values */
+.escadinha-card__values {
+  display: flex;
+  width: 100%;
+}
+
+.escadinha-card__value {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  min-height: 24px;
+}
+
+.escadinha-card__value-number {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  color: #646464;
+  line-height: 1;
+  text-align: center;
+}
+
+.escadinha-card__value--active .escadinha-card__value-number {
+  color: #ffffff;
+}
+
+.escadinha-card__value-odd {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 8px;
+  font-weight: 700;
+  color: #32a866;
+  line-height: 1;
+  text-align: center;
+}
+
+/* Button */
+.escadinha-card__button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 32px;
+  padding: 0 12px;
+  background-color: #242424;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.escadinha-card__button-text {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  color: #b1e8c9;
+}
+
+.escadinha-card__button-odd {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  color: #32a866;
+}

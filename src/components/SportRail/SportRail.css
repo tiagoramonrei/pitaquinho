@@ -1,0 +1,70 @@
+.sport-rail {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0 0 20px 12px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  touch-action: pan-x;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.sport-rail::-webkit-scrollbar {
+  display: none;
+}
+
+.sport-rail__list {
+  display: flex;
+  gap: 12px;
+}
+
+.sport-rail__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  width: 56px;
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.sport-rail__list::after {
+  content: '';
+  flex-shrink: 0;
+  min-width: 0.1px;
+}
+
+.sport-rail__icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #123b24;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sport-rail__icon img {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+.sport-rail__label {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  color: #ffffff;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+  line-height: 1;
+}
+

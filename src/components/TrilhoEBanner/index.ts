@@ -1,0 +1,2 @@
+export { TrilhoEBanner } from './TrilhoEBanner'
+
