@@ -159,26 +159,23 @@ export function PromotionSection() {
     }
   }
 
-  // Touch events para mobile
+  // Touch events para mobile - let native scroll handle the movement
   const handleTouchStart = (e: React.TouchEvent) => {
     if (!scrollRef.current) return
     setIsDragging(true)
     dragDistance.current = 0
-    startX.current = e.touches[0].pageX - scrollRef.current.offsetLeft
-    scrollLeft.current = scrollRef.current.scrollLeft
+    startX.current = e.touches[0].pageX
   }
 
   const handleTouchMove = (e: React.TouchEvent) => {
     if (!scrollRef.current) return
-    const x = e.touches[0].pageX - scrollRef.current.offsetLeft
-    const walk = (x - startX.current) * 1.5
-    dragDistance.current = Math.abs(walk)
-    scrollRef.current.scrollLeft = scrollLeft.current - walk
+    const x = e.touches[0].pageX
+    dragDistance.current = Math.abs(x - startX.current)
   }
 
   const handleTouchEnd = () => {
     setIsDragging(false)
-    snapToNearestCard()
+    // Let CSS scroll-snap handle the snapping
   }
 
   return (

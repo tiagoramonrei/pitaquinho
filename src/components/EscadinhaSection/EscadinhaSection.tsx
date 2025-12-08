@@ -150,23 +150,20 @@ export function EscadinhaSection() {
   }
 
   // Touch events para mobile
+  // Touch events para mobile - let native scroll handle the movement
   const handleTouchStart = (e: React.TouchEvent) => {
     if (!scrollRef.current) return
     setIsDragging(true)
-    startX.current = e.touches[0].pageX - scrollRef.current.offsetLeft
-    scrollLeft.current = scrollRef.current.scrollLeft
+    startX.current = e.touches[0].pageX
   }
 
-  const handleTouchMove = (e: React.TouchEvent) => {
-    if (!scrollRef.current) return
-    const x = e.touches[0].pageX - scrollRef.current.offsetLeft
-    const walk = (x - startX.current) * 1.5
-    scrollRef.current.scrollLeft = scrollLeft.current - walk
+  const handleTouchMove = () => {
+    // Just track that we're dragging, let native scroll handle movement
   }
 
   const handleTouchEnd = () => {
     setIsDragging(false)
-    snapToNearestCard()
+    // Let CSS scroll-snap handle the snapping
   }
 
   return (
