@@ -81,7 +81,7 @@ export function TreasureSection() {
   }, [])
 
   return (
-    <section className="treasure-section">
+    <section id="section-tesouro" className="treasure-section">
       {/* Header */}
       <div className="treasure-section__header">
         <div className="treasure-section__title">
