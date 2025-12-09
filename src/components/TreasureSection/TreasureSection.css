@@ -1,0 +1,126 @@
+.treasure-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 28px 0;
+  border-bottom: 2px solid #242424;
+}
+
+.treasure-section__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 18px 0 20px;
+  height: 20px;
+}
+
+.treasure-section__title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.4;
+}
+
+.treasure-section__icon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+.treasure-section__arrow {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.treasure-section__box-wrapper {
+  padding: 0 20px;
+}
+
+.treasure-section__box {
+  display: flex;
+  align-items: center;
+  height: 112px;
+  padding: 16px;
+  border-radius: 8px;
+  background-color: #1e1e1e;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  overflow: hidden;
+}
+
+.treasure-section__content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+  height: 100%;
+}
+
+.treasure-section__text {
+  display: flex;
+  flex-direction: column;
+}
+
+.treasure-section__label {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 400;
+  color: #ffffff;
+  line-height: 1;
+}
+
+.treasure-section__value {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: #32a866;
+  line-height: 1.2;
+  display: flex;
+  align-items: baseline;
+}
+
+.treasure-value__prefix {
+  margin-right: 2px;
+}
+
+.treasure-value__number {
+  display: inline-flex;
+}
+
+/* Animated Digits */
+.treasure-digit {
+  display: inline-block;
+}
+
+.treasure-digit--static {
+  /* Static characters like . and , */
+}
+
+.treasure-digit__inner {
+  display: inline-block;
+}
+
+.treasure-section__btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  padding: 0 16px;
+  background-color: #32a866;
+  border: none;
+  border-radius: 1000px;
+  cursor: pointer;
+  width: fit-content;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1;
+  white-space: nowrap;
+}

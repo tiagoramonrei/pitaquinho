@@ -88,6 +88,7 @@ interface OfferCard {
     image: string
     stat: string
     statValue: string
+    oldStatValue?: string // For pechincha cards (crossed out value)
     sportIcon?: string
   }
   // Para cards de time (super aumentada de time)
@@ -194,6 +195,7 @@ const allOffers: OfferCard[] = [
       image: playerYamal,
       stat: 'Finalizações ao gol',
       statValue: 'Mais de 0.5',
+      oldStatValue: '3.5',
     },
   },
 
@@ -506,6 +508,7 @@ const allOffers: OfferCard[] = [
       image: playerYamal,
       stat: 'Finalizações ao gol',
       statValue: 'Mais de 0.5',
+      oldStatValue: '3.5',
     },
   },
   {
@@ -525,6 +528,7 @@ const allOffers: OfferCard[] = [
       image: playerJimmyButler,
       stat: 'Pontos',
       statValue: 'Mais de 19.5',
+      oldStatValue: '24.5',
       sportIcon: iconBasquete,
     },
   },
@@ -545,6 +549,7 @@ const allOffers: OfferCard[] = [
       image: playerLeBronJames,
       stat: 'Rebotes',
       statValue: 'Mais de 6.5',
+      oldStatValue: '9.5',
       sportIcon: iconBasquete,
     },
   },
@@ -565,6 +570,7 @@ const allOffers: OfferCard[] = [
       image: playerLukaDoncic,
       stat: 'Assistências',
       statValue: 'Mais de 7.5',
+      oldStatValue: '10.5',
       sportIcon: iconBasquete,
     },
   },
@@ -585,6 +591,7 @@ const allOffers: OfferCard[] = [
       image: playerStephenCurry,
       stat: 'Cestas de 3',
       statValue: 'Mais de 4.5',
+      oldStatValue: '6.5',
       sportIcon: iconBasquete,
     },
   },
@@ -817,7 +824,15 @@ export function OffersSection() {
                   <span className="offer-card__player-team">{offer.player.team}</span>
                 </div>
                 <div className="offer-card__player-stat">
-                  <span className="offer-card__player-stat-value">{offer.player.statValue}</span>
+                  <span className="offer-card__player-stat-value">
+                    {offer.player.oldStatValue ? (
+                      <>
+                        {offer.player.statValue.replace(/[\d.]+$/, '')}<span className="offer-card__player-stat-old">{offer.player.oldStatValue}</span> » {offer.player.statValue.match(/[\d.]+$/)?.[0]}
+                      </>
+                    ) : (
+                      offer.player.statValue
+                    )}
+                  </span>
                   <span className="offer-card__player-stat-label">{offer.player.stat}</span>
                 </div>
               </div>

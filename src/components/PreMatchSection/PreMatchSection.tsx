@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import './PreMatchSection.css'
 
 import iconEmBreve from '../../assets/iconEmBreve.png'
@@ -575,6 +575,12 @@ export function PreMatchSection() {
   const [openLeagues, setOpenLeagues] = useState<string[]>(
     leagues.filter((l) => l.isOpen).map((l) => l.id)
   )
+  
+  // Refs for auto-scroll chips
+  const sportChipsRef = useRef<HTMLDivElement>(null)
+  const marketChipsRef = useRef<HTMLDivElement>(null)
+  const sportChipRefs = useRef<(HTMLButtonElement | null)[]>([])
+  const marketChipRefs = useRef<(HTMLButtonElement | null)[]>([])
 
   // Reset market when sport changes
   useEffect(() => {
@@ -609,12 +615,31 @@ export function PreMatchSection() {
       </div>
 
       {/* Sport Chips */}
-      <div className="prematch-section__chips">
-        {sportChips.map((chip) => (
+      <div className="prematch-section__chips" ref={sportChipsRef}>
+        {sportChips.map((chip, index) => (
           <button
             key={chip.id}
+            ref={(el) => { sportChipRefs.current[index] = el }}
             className={`prematch-section__chip ${activeSport === chip.id ? 'prematch-section__chip--active' : ''} ${chip.disabled ? 'prematch-section__chip--disabled' : ''}`}
-            onClick={() => !chip.disabled && setActiveSport(chip.id)}
+            onClick={() => {
+              if (chip.disabled) return
+              setActiveSport(chip.id)
+              // Scroll to make chip visible
+              const chipEl = sportChipRefs.current[index]
+              const containerEl = sportChipsRef.current
+              if (chipEl && containerEl) {
+                const chipLeft = chipEl.offsetLeft
+                const chipWidth = chipEl.offsetWidth
+                const containerWidth = containerEl.offsetWidth
+                const containerScroll = containerEl.scrollLeft
+                const padding = 20
+                if (chipLeft + chipWidth > containerScroll + containerWidth - padding) {
+                  containerEl.scrollTo({ left: chipLeft - padding, behavior: 'smooth' })
+                } else if (chipLeft < containerScroll + padding) {
+                  containerEl.scrollTo({ left: chipLeft - padding, behavior: 'smooth' })
+                }
+              }
+            }}
             disabled={chip.disabled}
           >
             <img src={chip.icon} alt="" className="prematch-section__chip-icon" />
@@ -624,12 +649,30 @@ export function PreMatchSection() {
       </div>
 
       {/* Market Chips */}
-      <div className="prematch-section__chips prematch-section__chips--sticky">
-        {currentMarketChips.map((chip) => (
+      <div className="prematch-section__chips prematch-section__chips--sticky" ref={marketChipsRef}>
+        {currentMarketChips.map((chip, index) => (
           <button
             key={chip.id}
+            ref={(el) => { marketChipRefs.current[index] = el }}
             className={`prematch-section__chip prematch-section__chip--market ${activeMarket === chip.id ? 'prematch-section__chip--active' : ''}`}
-            onClick={() => setActiveMarket(chip.id)}
+            onClick={() => {
+              setActiveMarket(chip.id)
+              // Scroll to make chip visible
+              const chipEl = marketChipRefs.current[index]
+              const containerEl = marketChipsRef.current
+              if (chipEl && containerEl) {
+                const chipLeft = chipEl.offsetLeft
+                const chipWidth = chipEl.offsetWidth
+                const containerWidth = containerEl.offsetWidth
+                const containerScroll = containerEl.scrollLeft
+                const padding = 20
+                if (chipLeft + chipWidth > containerScroll + containerWidth - padding) {
+                  containerEl.scrollTo({ left: chipLeft - padding, behavior: 'smooth' })
+                } else if (chipLeft < containerScroll + padding) {
+                  containerEl.scrollTo({ left: chipLeft - padding, behavior: 'smooth' })
+                }
+              }
+            }}
           >
             <span data-text={chip.label}>{chip.label}</span>
           </button>

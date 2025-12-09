@@ -6,6 +6,7 @@ import { OffersSection } from '../../components/OffersSection'
 import { LiveSection } from '../../components/LiveSection'
 import { EscadinhaSection } from '../../components/EscadinhaSection'
 import { PreMatchSection } from '../../components/PreMatchSection'
+import { TreasureSection } from '../../components/TreasureSection'
 import { WinningNowSection } from '../../components/WinningNowSection'
 import './Home.css'
 
@@ -20,6 +21,7 @@ export function Home() {
       <LiveSection />
       <EscadinhaSection />
       <PreMatchSection />
+      <TreasureSection />
       <WinningNowSection />
       
       {/* Outros componentes serão adicionados aqui */}

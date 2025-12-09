@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import './LiveSection.css'
 
 import iconAoVivo from '../../assets/iconAoVivo.png'
@@ -569,6 +569,12 @@ export function LiveSection() {
   const [openLeagues, setOpenLeagues] = useState<string[]>(
     leagues.filter((l) => l.isOpen).map((l) => l.id)
   )
+  
+  // Refs for auto-scroll chips
+  const sportChipsRef = useRef<HTMLDivElement>(null)
+  const marketChipsRef = useRef<HTMLDivElement>(null)
+  const sportChipRefs = useRef<(HTMLButtonElement | null)[]>([])
+  const marketChipRefs = useRef<(HTMLButtonElement | null)[]>([])
 
   // Reset market when sport changes
   useEffect(() => {
@@ -634,12 +640,31 @@ export function LiveSection() {
       </div>
 
       {/* Sport Chips */}
-      <div className="live-section__chips">
-        {sportChips.map((chip) => (
+      <div className="live-section__chips" ref={sportChipsRef}>
+        {sportChips.map((chip, index) => (
           <button
             key={chip.id}
+            ref={(el) => { sportChipRefs.current[index] = el }}
             className={`live-section__chip ${activeSport === chip.id ? 'live-section__chip--active' : ''} ${chip.disabled ? 'live-section__chip--disabled' : ''}`}
-            onClick={() => !chip.disabled && setActiveSport(chip.id)}
+            onClick={() => {
+              if (chip.disabled) return
+              setActiveSport(chip.id)
+              // Scroll to make chip visible
+              const chipEl = sportChipRefs.current[index]
+              const containerEl = sportChipsRef.current
+              if (chipEl && containerEl) {
+                const chipLeft = chipEl.offsetLeft
+                const chipWidth = chipEl.offsetWidth
+                const containerWidth = containerEl.offsetWidth
+                const containerScroll = containerEl.scrollLeft
+                const padding = 20
+                if (chipLeft + chipWidth > containerScroll + containerWidth - padding) {
+                  containerEl.scrollTo({ left: chipLeft - padding, behavior: 'smooth' })
+                } else if (chipLeft < containerScroll + padding) {
+                  containerEl.scrollTo({ left: chipLeft - padding, behavior: 'smooth' })
+                }
+              }
+            }}
             disabled={chip.disabled}
           >
             <img src={chip.icon} alt="" className="live-section__chip-icon" />
@@ -649,12 +674,30 @@ export function LiveSection() {
       </div>
 
       {/* Market Chips */}
-      <div className="live-section__chips live-section__chips--sticky">
-        {currentMarketChips.map((chip) => (
+      <div className="live-section__chips live-section__chips--sticky" ref={marketChipsRef}>
+        {currentMarketChips.map((chip, index) => (
           <button
             key={chip.id}
+            ref={(el) => { marketChipRefs.current[index] = el }}
             className={`live-section__chip live-section__chip--market ${activeMarket === chip.id ? 'live-section__chip--active' : ''}`}
-            onClick={() => setActiveMarket(chip.id)}
+            onClick={() => {
+              setActiveMarket(chip.id)
+              // Scroll to make chip visible
+              const chipEl = marketChipRefs.current[index]
+              const containerEl = marketChipsRef.current
+              if (chipEl && containerEl) {
+                const chipLeft = chipEl.offsetLeft
+                const chipWidth = chipEl.offsetWidth
+                const containerWidth = containerEl.offsetWidth
+                const containerScroll = containerEl.scrollLeft
+                const padding = 20
+                if (chipLeft + chipWidth > containerScroll + containerWidth - padding) {
+                  containerEl.scrollTo({ left: chipLeft - padding, behavior: 'smooth' })
+                } else if (chipLeft < containerScroll + padding) {
+                  containerEl.scrollTo({ left: chipLeft - padding, behavior: 'smooth' })
+                }
+              }
+            }}
           >
             <span>{chip.label}</span>
           </button>
