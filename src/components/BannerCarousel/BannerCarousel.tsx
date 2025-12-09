@@ -225,28 +225,11 @@ export function BannerCarousel() {
   }
 
   // Touch events para mobile
-  const handleTouchStart = (e: React.TouchEvent) => {
-    if (!scrollRef.current) return
-    setIsDragging(true)
+  const handleTouchStart = () => {
     pauseAutoPlay()
-    startX.current = e.touches[0].pageX
-    scrollLeft.current = scrollRef.current.scrollLeft
-    dragDistance.current = 0
-  }
-
-  const handleTouchMove = (e: React.TouchEvent) => {
-    if (!isDragging || !scrollRef.current) return
-    const x = e.touches[0].pageX
-    const walk = startX.current - x
-    dragDistance.current = walk
-    scrollRef.current.scrollLeft = scrollLeft.current + walk
   }
 
   const handleTouchEnd = () => {
-    if (!isDragging) return
-    const delta = dragDistance.current
-    setIsDragging(false)
-    snapToNearestBanner(delta)
     resetAutoPlay()
   }
 
@@ -261,7 +244,6 @@ export function BannerCarousel() {
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
         onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
       >
         {banners.map((banner) => (
