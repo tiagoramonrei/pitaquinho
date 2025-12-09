@@ -76,7 +76,6 @@ export function WinningNowSection() {
   const cardsRef = useRef<HTMLDivElement>(null)
   const startX = useRef(0)
   const scrollLeft = useRef(0)
-  const dragDistance = useRef(0)
   const autoPlayRef = useRef<ReturnType<typeof setInterval> | null>(null)
 
   // Scroll para o próximo card e adiciona novo winner
@@ -190,28 +189,11 @@ export function WinningNowSection() {
   }
 
   // Touch events para mobile
-  const handleTouchStart = (e: React.TouchEvent) => {
-    if (!cardsRef.current) return
-    setIsDragging(true)
+  const handleTouchStart = () => {
     pauseAutoPlay()
-    dragDistance.current = 0
-    startX.current = e.touches[0].pageX
-    scrollLeft.current = cardsRef.current.scrollLeft
-  }
-
-  const handleTouchMove = (e: React.TouchEvent) => {
-    if (!isDragging || !cardsRef.current) return
-    const x = e.touches[0].pageX
-    const walk = startX.current - x
-    dragDistance.current = walk
-    cardsRef.current.scrollLeft = scrollLeft.current + walk
   }
 
   const handleTouchEnd = () => {
-    if (!isDragging) return
-    const delta = dragDistance.current
-    setIsDragging(false)
-    snapToNearestCard(delta)
     resetAutoPlay()
   }
 
@@ -235,7 +217,6 @@ export function WinningNowSection() {
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
         onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
       >
         {winners.map((winner) => (

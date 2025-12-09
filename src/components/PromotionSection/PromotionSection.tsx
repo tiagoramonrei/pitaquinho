@@ -176,29 +176,7 @@ export function PromotionSection() {
     }
   }
 
-  // Touch events para mobile
-  const handleTouchStart = (e: React.TouchEvent) => {
-    if (!scrollRef.current) return
-    setIsDragging(true)
-    dragDistance.current = 0
-    startX.current = e.touches[0].pageX
-    scrollLeft.current = scrollRef.current.scrollLeft
-  }
-
-  const handleTouchMove = (e: React.TouchEvent) => {
-    if (!isDragging || !scrollRef.current) return
-    const x = e.touches[0].pageX
-    const walk = startX.current - x
-    dragDistance.current = walk
-    scrollRef.current.scrollLeft = scrollLeft.current + walk
-  }
-
-  const handleTouchEnd = () => {
-    if (!isDragging) return
-    const delta = dragDistance.current
-    setIsDragging(false)
-    snapToNearestCard(delta)
-  }
+  // Touch events removidos para usar scroll nativo
 
   return (
     <section id="section-promocoes" className="promotion-section">
@@ -216,9 +194,6 @@ export function PromotionSection() {
         onMouseUp={handleMouseUp}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
       >
         {promotions.map((promo) => {
           const isActivated = isMissionActivated(promo.id)

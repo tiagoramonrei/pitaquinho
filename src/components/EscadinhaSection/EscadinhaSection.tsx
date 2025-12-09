@@ -106,7 +106,6 @@ export function EscadinhaSection() {
   const scrollRef = useRef<HTMLDivElement>(null)
   const startX = useRef(0)
   const scrollLeft = useRef(0)
-  const dragDistance = useRef(0)
 
   // Centraliza no card mais próximo com sensibilidade ao arraste
   const snapToNearestCard = (dragDelta: number = 0) => {
@@ -167,29 +166,7 @@ export function EscadinhaSection() {
     }
   }
 
-  // Touch events para mobile
-  const handleTouchStart = (e: React.TouchEvent) => {
-    if (!scrollRef.current) return
-    setIsDragging(true)
-    dragDistance.current = 0
-    startX.current = e.touches[0].pageX
-    scrollLeft.current = scrollRef.current.scrollLeft
-  }
-
-  const handleTouchMove = (e: React.TouchEvent) => {
-    if (!isDragging || !scrollRef.current) return
-    const x = e.touches[0].pageX
-    const walk = startX.current - x
-    dragDistance.current = walk
-    scrollRef.current.scrollLeft = scrollLeft.current + walk
-  }
-
-  const handleTouchEnd = () => {
-    if (!isDragging) return
-    const delta = dragDistance.current
-    setIsDragging(false)
-    snapToNearestCard(delta)
-  }
+  // Touch events removidos para usar scroll nativo
 
   return (
     <section id="section-escadinha" className="escadinha-section">
@@ -211,9 +188,6 @@ export function EscadinhaSection() {
         onMouseUp={handleMouseUp}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
       >
         {escadinhaCards.map((card) => (
           <div key={card.id} className="escadinha-card">
