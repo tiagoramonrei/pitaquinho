@@ -31,7 +31,6 @@ function AnimatedDigit({ digit }: { digit: string }) {
 }
 
 export function TreasureSection() {
-  const [treasureValue, setTreasureValue] = useState(500)
   const [displayValue, setDisplayValue] = useState('500,00')
   const animationRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const valueRef = useRef(500)
@@ -58,7 +57,6 @@ export function TreasureSection() {
       } else {
         const finalValue = formatNumber(targetValue)
         setDisplayValue(finalValue)
-        setTreasureValue(targetValue)
         valueRef.current = targetValue
       }
     }
