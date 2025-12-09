@@ -176,7 +176,82 @@
   font-size: 10px;
   font-weight: 400;
   color: #ffffff;
-  line-height: 1;
+  line-height: 1.2;
   margin: 0;
+}
+
+/* Vantagem Bottom Sheet Styles */
+.vantagem-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 0 20px;
+}
+
+.vantagem-section__title {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.vantagem-cards {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  margin: 0 -20px;
+  padding: 0 20px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.vantagem-cards::-webkit-scrollbar {
+  display: none;
+}
+
+.vantagem-card {
+  flex-shrink: 0;
+  width: 304px;
+  background-color: #242424;
+  border-radius: 8px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.vantagem-card__number {
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  background-color: #32a866;
+  border-radius: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.96px;
+}
+
+.vantagem-card__text {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  color: #ffffff;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.vantagem-faq {
+  display: flex;
+  flex-direction: column;
+  margin-top: 24px;
+  padding: 0 20px;
 }
 

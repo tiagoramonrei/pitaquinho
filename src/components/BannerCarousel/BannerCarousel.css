@@ -92,6 +92,7 @@
   flex-direction: column;
   gap: 16px;
   width: 150px;
+  overflow: visible;
 }
 
 .banner-card__info--full {
@@ -139,6 +140,7 @@
 .banner-card__buttons {
   display: flex;
   gap: 8px;
+  overflow: visible;
 }
 
 .banner-card__btn {
@@ -239,6 +241,75 @@
   color: #ffffff;
 }
 
+/* Activated Mission Button */
+.banner-card__btn-activated {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 32px;
+  padding: 0 14px;
+  background-color: #123b24;
+  border: none;
+  border-radius: 1000px;
+  cursor: pointer;
+  width: auto;
+  flex-shrink: 0;
+}
+
+.banner-card__btn-activated-left {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.banner-card__btn-activated-icon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.banner-card__btn-activated-left span {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.banner-card__btn-activated-divider {
+  width: 1px;
+  height: 16px;
+  background-color: #32a866;
+  flex-shrink: 0;
+}
+
+.banner-card__btn-activated-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex-shrink: 0;
+}
+
+.banner-card__btn-activated-label {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 400;
+  color: #ffffff;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.banner-card__btn-activated-value {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1;
+  white-space: nowrap;
+}
+
 /* Bullets */
 .banner-carousel__bullets {
   display: flex;
@@ -251,7 +322,7 @@
   width: 6px;
   height: 6px;
   border-radius: 3px;
-  background-color: rgba(0, 0, 0, 0.32);
+  background-color: rgba(23, 23, 23, 0.32);
   transition: width 0.2s ease;
   position: relative;
   overflow: hidden;
@@ -259,7 +330,7 @@
 
 .banner-carousel__bullet--active {
   width: 16px;
-  background-color: rgba(0, 0, 0, 0.32);
+  background-color: rgba(23, 23, 23, 0.32);
 }
 
 .banner-carousel__bullet-progress {
@@ -268,7 +339,7 @@
   left: 0;
   height: 100%;
   width: 0;
-  background-color: #000000;
+  background-color: #171717;
   border-radius: 3px;
   animation: bulletProgress 8s linear forwards;
 }

@@ -181,16 +181,31 @@ export function MissionInfoRow({ label, value }: MissionInfoRowProps) {
 interface MissionFaqItemProps {
   question: string
   answer?: string
-  isOpen?: boolean
-  onClick?: () => void
+  defaultOpen?: boolean
 }
 
-export function MissionFaqItem({ question, onClick }: MissionFaqItemProps) {
+export function MissionFaqItem({ question, answer, defaultOpen = false }: MissionFaqItemProps) {
+  const [isExpanded, setIsExpanded] = useState(defaultOpen)
+  
   return (
-    <button className="mission-faq-item" onClick={onClick}>
-      <span className="mission-faq-item__question">{question}</span>
-      <img src={iconAccordion} alt="" className="mission-faq-item__icon" />
-    </button>
+    <div className={`mission-faq-item ${isExpanded ? 'mission-faq-item--expanded' : ''}`}>
+      <button 
+        className="mission-faq-item__header" 
+        onClick={() => answer && setIsExpanded(!isExpanded)}
+      >
+        <span className="mission-faq-item__question">{question}</span>
+        <img 
+          src={iconAccordion} 
+          alt="" 
+          className={`mission-faq-item__icon ${isExpanded ? 'mission-faq-item__icon--rotated' : ''}`} 
+        />
+      </button>
+      {answer && (
+        <div className="mission-faq-item__answer-wrapper">
+          <p className="mission-faq-item__answer">{answer}</p>
+        </div>
+      )}
+    </div>
   )
 }
 

@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react'
 import './SportRail.css'
 
 // Importando ícones dos assets
@@ -45,9 +46,42 @@ const sports: SportItem[] = [
 ]
 
 export function SportRail() {
+  const [gap, setGap] = useState(12)
+
+  useEffect(() => {
+    const calculateGap = () => {
+      const itemWidth = 56
+      const paddingLeft = 12
+      const viewportWidth = window.innerWidth
+      const minGap = 8
+      const maxGap = 24
+
+      // Tenta encontrar o número de itens que resulta em um gap válido
+      // Começamos com mais itens e vamos reduzindo até encontrar um gap aceitável
+      for (let fullItems = 8; fullItems >= 1; fullItems--) {
+        // Calcula o gap necessário para mostrar fullItems completos + 50% do próximo
+        // Fórmula: paddingLeft + fullItems * itemWidth + fullItems * gap + 0.5 * itemWidth = viewportWidth
+        const calculatedGap = (viewportWidth - paddingLeft - (fullItems + 0.5) * itemWidth) / fullItems
+        
+        // Se o gap está dentro do range aceitável, usa esse valor
+        if (calculatedGap >= minGap && calculatedGap <= maxGap) {
+          setGap(calculatedGap)
+          return
+        }
+      }
+      
+      // Fallback: usa gap padrão
+      setGap(12)
+    }
+
+    calculateGap()
+    window.addEventListener('resize', calculateGap)
+    return () => window.removeEventListener('resize', calculateGap)
+  }, [])
+
   return (
     <div className="sport-rail">
-      <div className="sport-rail__list">
+      <div className="sport-rail__list" style={{ gap: `${gap}px` }}>
         {sports.map((sport, index) => (
           <button key={index} className="sport-rail__item">
             <div className="sport-rail__icon">

@@ -52,7 +52,7 @@
   background-color: #1e1e1e;
   border-radius: 8px 8px 0 0;
   width: 100%;
-  max-height: 90vh;
+  max-height: calc(100vh - 80px);
   display: flex;
   flex-direction: column;
   animation: slideUp 0.3s ease-out;
@@ -207,6 +207,66 @@
   margin: 0 0 12px 0;
 }
 
+/* Mission Progress Bar */
+.mission-progress {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 20px;
+}
+
+.mission-progress__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.mission-progress__label {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 400;
+  color: #ffffff;
+  line-height: 1;
+}
+
+.mission-progress__value {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  color: #32a866;
+  line-height: 1.4;
+}
+
+.mission-progress__bar {
+  position: relative;
+  width: 100%;
+  height: 6px;
+  background-color: #373737;
+  border-radius: 3px;
+}
+
+.mission-progress__fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background-color: #32a866;
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+.mission-progress__dot {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 12px;
+  height: 12px;
+  background-color: #32a866;
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px #242424;
+  transition: left 0.3s ease;
+}
+
 /* Mission Timer */
 .mission-timer {
   display: flex;
@@ -331,18 +391,25 @@
 
 .mission-faq-item {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
   width: 100%;
   padding: 16px 0;
-  border: none;
   border-top: 1px solid #242424;
-  background: none;
-  cursor: pointer;
 }
 
 .mission-faq-item:last-child {
   border-bottom: none;
+}
+
+.mission-faq-item__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 0;
 }
 
 .mission-faq-item__question {
@@ -352,6 +419,11 @@
   color: #ffffff;
   line-height: 1;
   text-align: left;
+  transition: color 0.2s ease;
+}
+
+.mission-faq-item--expanded .mission-faq-item__question {
+  color: #32a866;
 }
 
 .mission-faq-item__icon {
@@ -359,6 +431,42 @@
   height: 16px;
   transform: rotate(180deg);
   filter: brightness(0) invert(1);
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.mission-faq-item--expanded .mission-faq-item__icon {
+  filter: brightness(0) saturate(100%) invert(52%) sepia(94%) saturate(371%) hue-rotate(101deg) brightness(93%) contrast(88%);
+}
+
+.mission-faq-item__icon--rotated {
+  transform: rotate(0deg);
+}
+
+.mission-faq-item__answer-wrapper {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.3s ease;
+}
+
+.mission-faq-item--expanded .mission-faq-item__answer-wrapper {
+  grid-template-rows: 1fr;
+}
+
+.mission-faq-item__answer {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  color: #ffffff;
+  line-height: 1.4;
+  margin: 0;
+  text-align: left;
+  overflow: hidden;
+  padding-top: 0;
+  transition: padding-top 0.3s ease;
+}
+
+.mission-faq-item--expanded .mission-faq-item__answer {
+  padding-top: 16px;
 }
 
 /* Primary Button */

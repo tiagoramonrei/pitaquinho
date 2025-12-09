@@ -425,7 +425,7 @@ const leagues: League[] = [
     id: 'ncaab',
     name: 'NCAAB',
     flag: flagUSA,
-    isOpen: false,
+    isOpen: true,
     sport: 'basquete',
     matches: [
       {

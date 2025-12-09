@@ -17,7 +17,7 @@
 
 .sport-rail__list {
   display: flex;
-  gap: 12px;
+  /* gap é definido dinamicamente via JS para garantir peek de 50% do próximo item */
 }
 
 .sport-rail__item {

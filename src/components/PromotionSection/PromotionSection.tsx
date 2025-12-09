@@ -74,8 +74,8 @@ export function PromotionSection() {
   const dragDistance = useRef(0)
 
   const handlePromoClick = (promo: Promotion) => {
-    // Only open bottom sheet if it's a mission type and wasn't a drag
-    if (promo.type === 'missao' && dragDistance.current < 5) {
+    // Open bottom sheet if wasn't a drag
+    if (dragDistance.current < 5) {
       setSelectedPromo(promo)
       setIsBottomSheetOpen(true)
     }
@@ -84,10 +84,21 @@ export function PromotionSection() {
   const handleActivateMission = () => {
     if (selectedPromo) {
       const promoId = selectedPromo.id
-      const target = promoId === '1' ? 50 : 20
-      // Just close the bottom sheet - animation will handle the rest
+      const isAlreadyActivated = isMissionActivated(promoId)
+      
+      // Just close the bottom sheet
       setIsBottomSheetOpen(false)
-      // Update state and show toast after animation completes
+      
+      // If already activated (button is "Jogar"), just close without toast
+      if (isAlreadyActivated) {
+        setTimeout(() => {
+          setSelectedPromo(null)
+        }, 350)
+        return
+      }
+      
+      // If not activated, activate and show toast
+      const target = promoId === '1' ? 50 : 20
       setTimeout(() => {
         setActivatedMissions(prev => ({
           ...prev,
@@ -202,24 +213,22 @@ export function PromotionSection() {
           return (
             <div 
               key={promo.id} 
-              className={`promo-card ${promo.type === 'missao' ? 'promo-card--clickable' : ''} ${isActivated ? 'promo-card--activated' : ''}`}
+              className={`promo-card promo-card--clickable ${isActivated ? 'promo-card--activated' : ''}`}
               onClick={() => handlePromoClick(promo)}
             >
               <div className="promo-card__header">
                 <span className="promo-card__type">
-                  {promo.type === 'missao' ? 'Missão' : 'Vantagem'}
-                </span>
-                <div className="promo-card__time">
-                  {isActivated && progress ? (
+                  {isActivated && progress && promo.type === 'missao' ? (
                     <span className="promo-card__progress">
                       Progresso: <strong>R${progress.current}</strong> de <strong>R${progress.target}</strong>
                     </span>
                   ) : (
-                    <>
-                      {promo.hasTimer && <span className="promo-card__dot"></span>}
-                      <span className="promo-card__time-label">{promo.timeLabel}</span>
-                    </>
+                    promo.type === 'missao' ? 'Missão' : 'Vantagem'
                   )}
+                </span>
+                <div className="promo-card__time">
+                  {promo.hasTimer && <span className="promo-card__dot"></span>}
+                  <span className="promo-card__time-label">{promo.timeLabel}</span>
                 </div>
               </div>
 
@@ -238,7 +247,7 @@ export function PromotionSection() {
       </div>
 
       {/* Mission Bottom Sheet */}
-      {selectedPromo && (
+      {selectedPromo && selectedPromo.type === 'missao' && (
         <BottomSheet
           isOpen={isBottomSheetOpen}
           onClose={closeBottomSheet}
@@ -259,6 +268,30 @@ export function PromotionSection() {
               <MissionTimer text={selectedPromo.timeLabel} />
             </div>
             <div className="mission-box__content">
+              {isMissionActivated(selectedPromo.id) && (
+                <div className="mission-progress">
+                  <div className="mission-progress__header">
+                    <span className="mission-progress__label">Progresso:</span>
+                    <span className="mission-progress__value">
+                      R${getMissionProgress(selectedPromo.id)?.current || 0} de R${getMissionProgress(selectedPromo.id)?.target || 50}
+                    </span>
+                  </div>
+                  <div className="mission-progress__bar">
+                    <div 
+                      className="mission-progress__fill"
+                      style={{ 
+                        width: `${((getMissionProgress(selectedPromo.id)?.current || 0) / (getMissionProgress(selectedPromo.id)?.target || 50)) * 100}%` 
+                      }}
+                    />
+                    <div 
+                      className="mission-progress__dot"
+                      style={{ 
+                        left: `${((getMissionProgress(selectedPromo.id)?.current || 0) / (getMissionProgress(selectedPromo.id)?.target || 50)) * 100}%` 
+                      }}
+                    />
+                  </div>
+                </div>
+              )}
               <p className="mission-box__title">Objetivos da missão</p>
               <MissionObjective 
                 text={selectedPromo.id === '1' 
@@ -293,6 +326,70 @@ export function PromotionSection() {
               <MissionFaqItem question="Posso acumular essa missão com outras?" />
               <MissionFaqItem question="Termos e Condições" />
             </div>
+          </div>
+        </BottomSheet>
+      )}
+
+      {/* Vantagem Bottom Sheet - Rei Turbina */}
+      {selectedPromo && selectedPromo.type === 'vantagem' && (
+        <BottomSheet
+          isOpen={isBottomSheetOpen}
+          onClose={closeBottomSheet}
+          title="Rei Turbina"
+          titleIcon={selectedPromo.image}
+        >
+          {/* Como Funciona Section */}
+          <div className="vantagem-section">
+            <h3 className="vantagem-section__title">Entenda como funciona:</h3>
+            <div className="vantagem-cards">
+              <div className="vantagem-card">
+                <div className="vantagem-card__number">1</div>
+                <p className="vantagem-card__text">
+                  Monte uma múltipla com pelo menos 3 seleções elegíveis, cada uma com odd mínima de 1.35, e o Rei Turbina começa a valer para você.
+                </p>
+              </div>
+              <div className="vantagem-card">
+                <div className="vantagem-card__number">2</div>
+                <p className="vantagem-card__text">
+                  Quanto mais seleções você adicionar ao seu bilhete, maior o bônus sobre o lucro final. O aumento pode chegar a até 200%, conforme a grade de eventos.
+                </p>
+              </div>
+              <div className="vantagem-card">
+                <div className="vantagem-card__number">3</div>
+                <p className="vantagem-card__text">
+                  O bônus é aplicado quando sua múltipla for vencedora, somado ao seu lucro. Você verá o percentual do Rei Turbina no betslip e o valor em reais ao inserir sua aposta.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* FAQ Section */}
+          <div className="vantagem-faq">
+            <MissionFaqItem 
+              question="O que é o Rei Turbina?" 
+              answer="É uma promoção que aumenta seus ganhos em apostas múltiplas. Quanto mais seleções válidas você tiver no bilhete, maior será o percentual extra aplicado sobre o lucro final, podendo chegar a até 200%."
+              defaultOpen
+            />
+            <MissionFaqItem 
+              question="Quais tipos de apostas são válidos?" 
+              answer="Apenas apostas múltiplas (com 3 ou mais seleções) em eventos diferentes. Pode incluir pré-partida e ao vivo. Apostar via Criar Aposta é permitido, mas somente se as seleções forem de eventos diferentes."
+            />
+            <MissionFaqItem 
+              question="Quais odds mínimas são necessárias?" 
+              answer="Cada seleção precisa ter odd mínima de 1.35 para contar no cálculo do Rei Turbina."
+            />
+            <MissionFaqItem 
+              question="E se eu tiver seleções com odds menores?" 
+              answer="Seu bilhete ainda é válido para o Rei Turbina, mas as seleções abaixo de 1.35 não contam para o cálculo do aumento percentual."
+            />
+            <MissionFaqItem 
+              question="O que acontece se um dos jogos for cancelado?" 
+              answer="Se alguma seleção tiver odd 2.00 (evento anulado), o Rei Turbina será recalculado com base nas seleções restantes. Exemplo: se você apostou em 5 jogos para ter +15%, mas 1 foi anulado, seu bônus será ajustado para o percentual de 4 eventos."
+            />
+            <MissionFaqItem 
+              question="E se eu usar apostas especiais ou bônus?" 
+              answer="O Rei Turbina também vale para apostas feitas com dinheiro de bônus ou coroa do rei."
+            />
           </div>
         </BottomSheet>
       )}

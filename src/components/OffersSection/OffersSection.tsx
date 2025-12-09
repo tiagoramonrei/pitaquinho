@@ -594,6 +594,8 @@ export function OffersSection() {
   const [isDragging, setIsDragging] = useState(false)
   const [activeFilter, setActiveFilter] = useState('melhores')
   const scrollRef = useRef<HTMLDivElement>(null)
+  const filtersRef = useRef<HTMLDivElement>(null)
+  const chipRefs = useRef<(HTMLButtonElement | null)[]>([])
   const startX = useRef(0)
   const scrollLeft = useRef(0)
 
@@ -680,12 +682,40 @@ export function OffersSection() {
       </div>
 
       {/* Filter Chips */}
-      <div className="offers-section__filters">
-        {filterChips.map((chip) => (
+      <div className="offers-section__filters" ref={filtersRef}>
+        {filterChips.map((chip, index) => (
           <button
             key={chip.id}
+            ref={(el) => { chipRefs.current[index] = el }}
             className={`offers-section__chip ${activeFilter === chip.id ? 'offers-section__chip--active' : ''}`}
-            onClick={() => setActiveFilter(chip.id)}
+            onClick={() => {
+              setActiveFilter(chip.id)
+              // Scroll para deixar o chip selecionado visível
+              const chipEl = chipRefs.current[index]
+              const containerEl = filtersRef.current
+              if (chipEl && containerEl) {
+                const chipLeft = chipEl.offsetLeft
+                const chipWidth = chipEl.offsetWidth
+                const containerWidth = containerEl.offsetWidth
+                const containerScroll = containerEl.scrollLeft
+                const padding = 20
+
+                // Se o chip está fora da view à direita
+                if (chipLeft + chipWidth > containerScroll + containerWidth - padding) {
+                  containerEl.scrollTo({
+                    left: chipLeft - padding,
+                    behavior: 'smooth'
+                  })
+                }
+                // Se o chip está fora da view à esquerda
+                else if (chipLeft < containerScroll + padding) {
+                  containerEl.scrollTo({
+                    left: chipLeft - padding,
+                    behavior: 'smooth'
+                  })
+                }
+              }
+            }}
           >
             {chip.label}
           </button>

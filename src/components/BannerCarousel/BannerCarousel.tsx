@@ -1,5 +1,14 @@
 import { useState, useRef, useEffect } from 'react'
 import './BannerCarousel.css'
+import { Toast } from '../Toast'
+import { 
+  BottomSheet, 
+  MissionObjective, 
+  MissionInfoRow, 
+  MissionFaqItem,
+  MissionTimer 
+} from '../BottomSheet'
+import iconAccordion from '../../assets/iconAccordion.png'
 
 // Backgrounds
 import bgMissao from '../../assets/bgMissao.png'
@@ -10,6 +19,14 @@ import bgVirtuais from '../../assets/bgVirtuais.png'
 import iconSaibaMais from '../../assets/iconSaibaMais.svg'
 import iconBoostWhite from '../../assets/iconBoostWhite.svg'
 import iconAumentada from '../../assets/iconAumentada.png'
+import iconAtivo from '../../assets/iconAtivo.svg'
+import imgMissaoRodadaGratis from '../../assets/imgMissaoRodadaGratis.png'
+
+// Mission progress type
+interface MissionProgress {
+  current: number
+  target: number
+}
 
 interface Banner {
   id: number
@@ -93,11 +110,72 @@ export function BannerCarousel() {
   const [activeIndex, setActiveIndex] = useState(0)
   const [isDragging, setIsDragging] = useState(false)
   const [progressKey, setProgressKey] = useState(0)
+  const [activatedMissions, setActivatedMissions] = useState<Record<number, MissionProgress>>({})
+  const [showToast, setShowToast] = useState(false)
+  const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false)
+  const [selectedBanner, setSelectedBanner] = useState<Banner | null>(null)
   const scrollRef = useRef<HTMLDivElement>(null)
   const startX = useRef(0)
   const scrollLeft = useRef(0)
   const dragDistance = useRef(0)
   const autoPlayRef = useRef<ReturnType<typeof setInterval> | null>(null)
+
+  const handleActivateMission = (bannerId: number, target: number) => {
+    if (activatedMissions[bannerId]) return // Already activated
+    
+    setActivatedMissions(prev => ({
+      ...prev,
+      [bannerId]: { current: 0, target }
+    }))
+    setShowToast(true)
+  }
+
+  const isMissionActivated = (bannerId: number) => {
+    return bannerId in activatedMissions
+  }
+
+  const getMissionProgress = (bannerId: number) => {
+    return activatedMissions[bannerId]
+  }
+
+  const handleOpenMissionInfo = (banner: Banner) => {
+    setSelectedBanner(banner)
+    setIsBottomSheetOpen(true)
+  }
+
+  const closeBottomSheet = () => {
+    setIsBottomSheetOpen(false)
+    setTimeout(() => {
+      setSelectedBanner(null)
+    }, 350)
+  }
+
+  const handleActivateMissionFromBS = () => {
+    if (selectedBanner) {
+      const bannerId = selectedBanner.id
+      const isAlreadyActivated = isMissionActivated(bannerId)
+      
+      setIsBottomSheetOpen(false)
+      
+      if (isAlreadyActivated) {
+        setTimeout(() => {
+          setSelectedBanner(null)
+        }, 350)
+        return
+      }
+      
+      // Atualiza o estado imediatamente para o banner mudar
+      setActivatedMissions(prev => ({
+        ...prev,
+        [bannerId]: { current: 0, target: 100 }
+      }))
+      setShowToast(true)
+      
+      setTimeout(() => {
+        setSelectedBanner(null)
+      }, 350)
+    }
+  }
 
   // Função para iniciar o auto-play
   const startAutoPlay = () => {
@@ -280,11 +358,53 @@ export function BannerCarousel() {
                 {/* Botões padrão */}
                 {banner.buttonText && (
                   <div className="banner-card__buttons">
-                    <button className="banner-card__btn">{banner.buttonText}</button>
-                    {banner.showInfoBtn && (
-                      <button className="banner-card__btn banner-card__btn--icon">
-                        <img src={iconSaibaMais} alt="Saiba mais" />
+                    {banner.type === 'missao' && isMissionActivated(banner.id) ? (
+                      <button 
+                        className="banner-card__btn-activated"
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          handleOpenMissionInfo(banner)
+                        }}
+                      >
+                        <div className="banner-card__btn-activated-left">
+                          <img src={iconAtivo} alt="" className="banner-card__btn-activated-icon" />
+                          <span>Acompanhar</span>
+                        </div>
+                        <div className="banner-card__btn-activated-divider" />
+                        <div className="banner-card__btn-activated-right">
+                          <span className="banner-card__btn-activated-label">Progresso</span>
+                          <span className="banner-card__btn-activated-value">
+                            R${getMissionProgress(banner.id)?.current || 0} de R${getMissionProgress(banner.id)?.target || 100}
+                          </span>
+                        </div>
                       </button>
+                    ) : (
+                      <>
+                        <button 
+                          className="banner-card__btn"
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            if (banner.type === 'missao') {
+                              handleActivateMission(banner.id, 100)
+                            }
+                          }}
+                        >
+                          {banner.buttonText}
+                        </button>
+                        {banner.showInfoBtn && (
+                          <button 
+                            className="banner-card__btn banner-card__btn--icon"
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              if (banner.type === 'missao') {
+                                handleOpenMissionInfo(banner)
+                              }
+                            }}
+                          >
+                            <img src={iconSaibaMais} alt="Saiba mais" />
+                          </button>
+                        )}
+                      </>
                     )}
                   </div>
                 )}
@@ -331,6 +451,92 @@ export function BannerCarousel() {
           </span>
         ))}
       </div>
+
+      {/* Success Toast */}
+      <Toast
+        isVisible={showToast}
+        onClose={() => setShowToast(false)}
+        title="Missão Ativada"
+        message="Cumpra os objetivos para ganhar o seu bônus!"
+      />
+
+      {/* Mission Bottom Sheet */}
+      {selectedBanner && selectedBanner.type === 'missao' && (
+        <BottomSheet
+          isOpen={isBottomSheetOpen}
+          onClose={closeBottomSheet}
+          title={selectedBanner.title}
+          titleIcon={imgMissaoRodadaGratis}
+          footerContent={
+            <button className="bottom-sheet__btn-primary" onClick={handleActivateMissionFromBS}>
+              <span>{isMissionActivated(selectedBanner.id) ? 'Jogar' : 'Ativar Missão'}</span>
+            </button>
+          }
+        >
+          {/* Mission Description */}
+          <p className="mission-description">{selectedBanner.description}</p>
+
+          {/* Mission Box */}
+          <div className="mission-box">
+            <div className="mission-box__header">
+              <MissionTimer text={selectedBanner.headerRight} />
+            </div>
+            <div className="mission-box__content">
+              {isMissionActivated(selectedBanner.id) && (
+                <div className="mission-progress">
+                  <div className="mission-progress__header">
+                    <span className="mission-progress__label">Progresso:</span>
+                    <span className="mission-progress__value">
+                      R${getMissionProgress(selectedBanner.id)?.current || 0} de R${getMissionProgress(selectedBanner.id)?.target || 100}
+                    </span>
+                  </div>
+                  <div className="mission-progress__bar">
+                    <div 
+                      className="mission-progress__fill"
+                      style={{ 
+                        width: `${((getMissionProgress(selectedBanner.id)?.current || 0) / (getMissionProgress(selectedBanner.id)?.target || 100)) * 100}%` 
+                      }}
+                    />
+                    <div 
+                      className="mission-progress__dot"
+                      style={{ 
+                        left: `${((getMissionProgress(selectedBanner.id)?.current || 0) / (getMissionProgress(selectedBanner.id)?.target || 100)) * 100}%` 
+                      }}
+                    />
+                  </div>
+                </div>
+              )}
+              <p className="mission-box__title">Objetivos da missão</p>
+              <MissionObjective text="Apostar R$100 no jogo SpaceMan" />
+            </div>
+          </div>
+
+          {/* Mission Info Section */}
+          <div className="mission-info-section">
+            <div className="mission-info-header">
+              <span className="mission-info-header__title">Informações sobre a Missão</span>
+              <img src={iconAccordion} alt="" className="mission-info-header__icon" />
+            </div>
+            <div className="mission-info-rows">
+              <MissionInfoRow label="Tipo de Aposta" value="Jogo Crash" />
+              <MissionInfoRow label="Valor Mínimo por Aposta" value="Pelo menos R$100" />
+              <MissionInfoRow label="Valor do Bônus" value="40" />
+              <MissionInfoRow label="Forma de Recebimento" value="Giros Grátis" />
+              <MissionInfoRow label="Validade do Bônus" value="7 dias após o recebimento" />
+            </div>
+
+            {/* FAQ Section */}
+            <div className="mission-faq">
+              <MissionFaqItem question="Como posso participar da missão" />
+              <MissionFaqItem question="Preciso ativar a missão para participar?" />
+              <MissionFaqItem question="Quais jogos participam da promoção?" />
+              <MissionFaqItem question="Quando recebo meu bônus?" />
+              <MissionFaqItem question="Posso acumular essa missão com outras?" />
+              <MissionFaqItem question="Termos e Condições" />
+            </div>
+          </div>
+        </BottomSheet>
+      )}
     </div>
   )
 }
