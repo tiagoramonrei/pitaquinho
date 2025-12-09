@@ -10,6 +10,18 @@
   z-index: 100;
 }
 
+/* Pseudo-elemento para cobrir o overscroll no topo (pull-to-refresh) */
+.header::before {
+  content: '';
+  position: absolute;
+  top: -100vh;
+  left: 0;
+  right: 0;
+  height: 100vh;
+  background-color: #164c2e;
+  z-index: -1;
+}
+
 .header__content {
   display: flex;
   align-items: center;

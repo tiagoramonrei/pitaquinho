@@ -29,15 +29,12 @@
   box-sizing: border-box;
 }
 
-html {
-  background-color: var(--color-primary); /* Garante que o overscroll do topo seja verde */
-}
-
+html,
 body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
-  background-color: var(--color-background); /* Conteúdo com fundo escuro */
+  background-color: var(--color-background);
 }
 
 #root {
