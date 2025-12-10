@@ -13,12 +13,14 @@ import './Home.css'
 
 export function Home() {
   const [isVariant2, setIsVariant2] = useState(false)
+  const [isVariant3, setIsVariant3] = useState(false)
 
   useEffect(() => {
-    // Detecta hash #v2 ou #/2 na URL
+    // Detecta hash #v2, #/2 ou #v3, #/3 na URL
     const checkHash = () => {
       const hash = window.location.hash
       setIsVariant2(hash === '#v2' || hash === '#/2')
+      setIsVariant3(hash === '#v3' || hash === '#/3')
     }
 
     checkHash()
@@ -28,7 +30,7 @@ export function Home() {
   }, [])
 
   return (
-    <div className="home">
+    <div className={`home ${isVariant3 ? 'home--no-dividers' : ''}`}>
       <Header />
       <TrilhoEBanner />
       <ContentTabs />
