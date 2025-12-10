@@ -21,7 +21,7 @@
 .home--no-dividers .treasure-section,
 .home--no-dividers .winning-now-section {
   border-bottom: none;
-  padding: 20px 0;
+  padding: 24px 0;
 }
 
 /* Primeiro componente (após ContentTabs) mantém padding-top 28px */
