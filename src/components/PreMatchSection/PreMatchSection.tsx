@@ -768,7 +768,7 @@ export function PreMatchSection() {
                             </div>
                           </div>
                           <div className="prematch-section__match-info">
-                            {match.extraBets ? (
+                            {match.extraBets && (activeMarket === 'resultado-final' || activeMarket === 'vencedor') ? (
                               <button 
                                 type="button"
                                 className="prematch-section__match-info-content prematch-section__match-info-content--clickable"
