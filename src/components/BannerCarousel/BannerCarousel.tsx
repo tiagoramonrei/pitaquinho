@@ -84,6 +84,34 @@ interface Banner {
 
 const banners: Banner[] = [
   {
+    id: 7,
+    type: 'aoVivoTenis',
+    headerLeft: 'Ao Vivo',
+    headerRight: 'Roland Garros',
+    showTimer: true,
+    background: bgAoVivoTenis,
+    title: '',
+    description: '',
+    tennisMatch: {
+      player1: {
+        name: 'Sinner',
+        sets: 0,
+        games: 1,
+        points: '40',
+        isServing: true,
+      },
+      player2: {
+        name: 'Alcaraz',
+        sets: 0,
+        games: 3,
+        points: '15',
+        isServing: false,
+      },
+      currentSet: '1º set',
+      odds: { player1: '1.78x', player2: '1.78x' },
+    },
+  },
+  {
     id: 1,
     type: 'missao',
     headerLeft: 'Missão Rodada Grátis',
@@ -119,34 +147,6 @@ const banners: Banner[] = [
       },
       matchTime: "Q2 05:00",
       odds: { home: '1.72x', draw: '', away: '2.15x' },
-    },
-  },
-  {
-    id: 7,
-    type: 'aoVivoTenis',
-    headerLeft: 'Ao Vivo',
-    headerRight: 'Roland Garros',
-    showTimer: true,
-    background: bgAoVivoTenis,
-    title: '',
-    description: '',
-    tennisMatch: {
-      player1: {
-        name: 'Sinner',
-        sets: 0,
-        games: 1,
-        points: '40',
-        isServing: true,
-      },
-      player2: {
-        name: 'Alcaraz',
-        sets: 0,
-        games: 3,
-        points: '15',
-        isServing: false,
-      },
-      currentSet: '1º set',
-      odds: { player1: '1.78x', player2: '1.78x' },
     },
   },
   {
