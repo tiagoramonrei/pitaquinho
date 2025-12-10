@@ -55,10 +55,6 @@ import escudoWesleyan from '../../assets/escudoWesleyan.png'
 import flagGrecia from '../../assets/flagGrecia.png'
 import flagItalia from '../../assets/flagItalia.png'
 import flagBulgaria from '../../assets/flagBulgaria.png'
-// Rei Antecipa badges
-import reiAntecipaFutebol from '../../assets/reiAntecipaFutebol.png'
-import reiAntecipaBasquete from '../../assets/reiAntecipaBasquete.png'
-
 interface SportChip {
   id: string
   icon: string
