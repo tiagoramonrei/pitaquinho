@@ -353,6 +353,25 @@
   object-fit: contain;
 }
 
+/* Rei Antecipa Badge */
+.live-section__match-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.live-section__match-divider {
+  width: 1px;
+  height: 16px;
+  background-color: #242424;
+}
+
+.live-section__rei-antecipa {
+  width: 20px;
+  height: 12px;
+  object-fit: contain;
+}
+
 /* Teams */
 .live-section__teams {
   display: flex;

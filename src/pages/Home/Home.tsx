@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react'
 import { Header } from '../../components/Header'
 import { TrilhoEBanner } from '../../components/TrilhoEBanner'
 import { ContentTabs } from '../../components/ContentTabs'
@@ -11,13 +12,37 @@ import { WinningNowSection } from '../../components/WinningNowSection'
 import './Home.css'
 
 export function Home() {
+  const [isVariant2, setIsVariant2] = useState(false)
+
+  useEffect(() => {
+    // Detecta hash #v2 ou #/2 na URL
+    const checkHash = () => {
+      const hash = window.location.hash
+      setIsVariant2(hash === '#v2' || hash === '#/2')
+    }
+
+    checkHash()
+    window.addEventListener('hashchange', checkHash)
+
+    return () => window.removeEventListener('hashchange', checkHash)
+  }, [])
+
   return (
     <div className="home">
       <Header />
       <TrilhoEBanner />
       <ContentTabs />
-      <PromotionSection />
-      <OffersSection />
+      {isVariant2 ? (
+        <>
+          <OffersSection />
+          <PromotionSection />
+        </>
+      ) : (
+        <>
+          <PromotionSection />
+          <OffersSection />
+        </>
+      )}
       <LiveSection />
       <EscadinhaSection />
       <PreMatchSection />

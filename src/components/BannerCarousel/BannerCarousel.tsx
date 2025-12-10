@@ -16,11 +16,20 @@ import bg1x2 from '../../assets/bg1x2.png'
 import bgTorneio from '../../assets/bgTorneio.png'
 import bgAumentada from '../../assets/bgAumentada.png'
 import bgVirtuais from '../../assets/bgVirtuais.png'
+import bgAoVivoFutebol from '../../assets/bgAoVivoFutebol.png'
+import bgAoVivoBasquete from '../../assets/aoVivoBasquete.png'
+import bgAoVivoTenis from '../../assets/aoVivoTenis.png'
+import iconAoVivo from '../../assets/iconAoVivo.png'
+import iconTenis from '../../assets/iconTenis.png'
 import iconSaibaMais from '../../assets/iconSaibaMais.svg'
 import iconBoostWhite from '../../assets/iconBoostWhite.svg'
 import iconAumentada from '../../assets/iconAumentada.png'
 import iconAtivo from '../../assets/iconAtivo.svg'
 import imgMissaoRodadaGratis from '../../assets/imgMissaoRodadaGratis.png'
+
+// Escudos para Ao Vivo
+import escudoMagic from '../../assets/escudoMagic.png'
+import escudoKnicks from '../../assets/escudoKnics.png'
 
 // Mission progress type
 interface MissionProgress {
@@ -28,9 +37,38 @@ interface MissionProgress {
   target: number
 }
 
+interface LiveTeam {
+  name: string
+  shortName: string
+  badge: string
+  score: number
+}
+
+interface LiveMatch {
+  homeTeam: LiveTeam
+  awayTeam: LiveTeam
+  matchTime: string
+  odds: { home: string; draw: string; away: string }
+}
+
+interface TennisPlayer {
+  name: string
+  sets: number
+  games: number
+  points: string
+  isServing: boolean
+}
+
+interface TennisMatch {
+  player1: TennisPlayer
+  player2: TennisPlayer
+  currentSet: string
+  odds: { player1: string; player2: string }
+}
+
 interface Banner {
   id: number
-  type: 'missao' | '1x2' | 'torneio' | 'aumentada' | 'virtuais'
+  type: 'missao' | '1x2' | 'torneio' | 'aumentada' | 'virtuais' | 'aoVivo' | 'aoVivoTenis'
   headerLeft: string
   headerRight: string
   showTimer?: boolean
@@ -41,6 +79,8 @@ interface Banner {
   showInfoBtn?: boolean
   odds?: { team: string; value: string }[]
   oddBoosted?: { old: string; new: string }
+  liveMatch?: LiveMatch
+  tennisMatch?: TennisMatch
 }
 
 const banners: Banner[] = [
@@ -55,6 +95,60 @@ const banners: Banner[] = [
     description: 'Aposte R$100 no jogo SpaceMan e ganhe 40 rodadas grátis.',
     buttonText: 'Ativar Missão',
     showInfoBtn: true,
+  },
+  {
+    id: 6,
+    type: 'aoVivo',
+    headerLeft: 'Ao Vivo',
+    headerRight: 'NBA',
+    showTimer: true,
+    background: bgAoVivoBasquete,
+    title: '',
+    description: '',
+    liveMatch: {
+      homeTeam: {
+        name: 'Knicks',
+        shortName: 'NYK',
+        badge: escudoKnicks,
+        score: 42,
+      },
+      awayTeam: {
+        name: 'Magic',
+        shortName: 'ORL',
+        badge: escudoMagic,
+        score: 38,
+      },
+      matchTime: "Q2 05:00",
+      odds: { home: '1.72x', draw: '', away: '2.15x' },
+    },
+  },
+  {
+    id: 7,
+    type: 'aoVivoTenis',
+    headerLeft: 'Ao Vivo',
+    headerRight: 'Roland Garros',
+    showTimer: true,
+    background: bgAoVivoTenis,
+    title: '',
+    description: '',
+    tennisMatch: {
+      player1: {
+        name: 'Sinner',
+        sets: 0,
+        games: 1,
+        points: '40',
+        isServing: true,
+      },
+      player2: {
+        name: 'Alcaraz',
+        sets: 0,
+        games: 3,
+        points: '15',
+        isServing: false,
+      },
+      currentSet: '1º set',
+      odds: { player1: '1.78x', player2: '1.78x' },
+    },
   },
   {
     id: 2,
@@ -104,7 +198,78 @@ const banners: Banner[] = [
   },
 ]
 
-const AUTO_PLAY_INTERVAL = 8000 // 8 segundos
+const AUTO_PLAY_INTERVAL = 10000 // 10 segundos
+
+// Helper function to parse match time string
+function parseMatchTime(timeStr: string): { period: number; minutes: number; seconds: number; isQuarter: boolean } {
+  // Check for quarter format (basketball) - Q2 07:12
+  const quarterMatch = timeStr.match(/Q(\d) (\d+):(\d+)/)
+  if (quarterMatch) {
+    return {
+      period: parseInt(quarterMatch[1]),
+      minutes: parseInt(quarterMatch[2]),
+      seconds: parseInt(quarterMatch[3]),
+      isQuarter: true,
+    }
+  }
+  // Check for half format (football) - 2T 22:12
+  const halfMatch = timeStr.match(/(\d)T (\d+):(\d+)/)
+  if (halfMatch) {
+    return {
+      period: parseInt(halfMatch[1]),
+      minutes: parseInt(halfMatch[2]),
+      seconds: parseInt(halfMatch[3]),
+      isQuarter: false,
+    }
+  }
+  return { period: 1, minutes: 0, seconds: 0, isQuarter: false }
+}
+
+// Helper function to format time back to string
+function formatMatchTime(period: number, minutes: number, seconds: number, isQuarter: boolean): string {
+  const mins = minutes.toString().padStart(2, '0')
+  const secs = seconds.toString().padStart(2, '0')
+  // Basketball: Q1 07:12, Football: 1T 22:12
+  return isQuarter ? `Q${period} ${mins}:${secs}` : `${period}T ${mins}:${secs}`
+}
+
+// Helper function to update time by 1 second (basketball: countdown, football: count up)
+function updateMatchTime(timeStr: string): string {
+  if (timeStr === 'Intervalo' || timeStr === 'INT') {
+    return timeStr
+  }
+
+  const { period, minutes, seconds, isQuarter } = parseMatchTime(timeStr)
+
+  if (isQuarter) {
+    // Basketball: countdown (regressive)
+    let newSeconds = seconds - 1
+    let newMinutes = minutes
+
+    if (newSeconds < 0) {
+      newSeconds = 59
+      newMinutes -= 1
+    }
+
+    // If time reaches 0:00, change to Intervalo
+    if (newMinutes <= 0 && newSeconds <= 0) {
+      return 'Intervalo'
+    }
+
+    return formatMatchTime(period, newMinutes, newSeconds, isQuarter)
+  } else {
+    // Football: count up (progressive)
+    let newSeconds = seconds + 1
+    let newMinutes = minutes
+
+    if (newSeconds >= 60) {
+      newSeconds = 0
+      newMinutes += 1
+    }
+
+    return formatMatchTime(period, newMinutes, newSeconds, isQuarter)
+  }
+}
 
 export function BannerCarousel() {
   const [activeIndex, setActiveIndex] = useState(0)
@@ -114,6 +279,7 @@ export function BannerCarousel() {
   const [showToast, setShowToast] = useState(false)
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false)
   const [selectedBanner, setSelectedBanner] = useState<Banner | null>(null)
+  const [liveMatchTime, setLiveMatchTime] = useState("Q2 05:00")
   const scrollRef = useRef<HTMLDivElement>(null)
   const startX = useRef(0)
   const scrollLeft = useRef(0)
@@ -209,10 +375,22 @@ export function BannerCarousel() {
     }
   }, [])
 
-  // Reseta a animação do bullet quando muda de banner
+  // Reseta a animação do bullet quando muda de banner (apenas se autoplay estiver ativo)
   useEffect(() => {
-    setProgressKey(prev => prev + 1)
+    // Só reseta se o autoplay estiver rodando (não durante interação manual)
+    if (autoPlayRef.current) {
+      setProgressKey(prev => prev + 1)
+    }
   }, [activeIndex])
+
+  // Atualiza o tempo do jogo ao vivo a cada segundo
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setLiveMatchTime(prev => updateMatchTime(prev))
+    }, 1000)
+
+    return () => clearInterval(interval)
+  }, [])
 
   // Pausa o auto-play durante o drag
   const pauseAutoPlay = () => {
@@ -222,9 +400,16 @@ export function BannerCarousel() {
     }
   }
 
-  // Reinicia o auto-play após interação manual
+  // Reinicia o auto-play após interação manual - reseta completamente o timer
   const resetAutoPlay = () => {
+    // Primeiro limpa qualquer intervalo existente
+    if (autoPlayRef.current) {
+      clearInterval(autoPlayRef.current)
+      autoPlayRef.current = null
+    }
+    // Reseta a animação do bullet
     setProgressKey(prev => prev + 1)
+    // Inicia um novo ciclo de autoplay
     startAutoPlay()
   }
 
@@ -308,7 +493,10 @@ export function BannerCarousel() {
   }
 
   const handleTouchEnd = () => {
-    resetAutoPlay()
+    // Aguarda o scroll terminar antes de reiniciar o autoplay
+    setTimeout(() => {
+      resetAutoPlay()
+    }, 300)
   }
 
   return (
@@ -328,108 +516,214 @@ export function BannerCarousel() {
           <div key={banner.id} className="banner-card">
             {/* Header */}
             <div className="banner-card__header">
-              <span className="banner-card__header-left">{banner.headerLeft}</span>
-              <div className="banner-card__header-right">
-                {banner.showTimer && <span className="banner-card__timer-dot" />}
-                <span>{banner.headerRight}</span>
-              </div>
+              {banner.type === 'aoVivo' || banner.type === 'aoVivoTenis' ? (
+                <>
+                  <div className="banner-card__header-left-live">
+                    <div className="banner-card__tag-aovivo">
+                      <div className="banner-card__tag-icon-wrapper">
+                        <img src={iconAoVivo} alt="" className="banner-card__tag-icon" />
+                      </div>
+                      <span>Ao Vivo</span>
+                    </div>
+                    <span className="banner-card__match-time">
+                      {banner.type === 'aoVivoTenis' ? banner.tennisMatch?.currentSet : liveMatchTime}
+                    </span>
+                  </div>
+                  <span className="banner-card__header-right-text">{banner.headerRight}</span>
+                </>
+              ) : (
+                <>
+                  <span className="banner-card__header-left">{banner.headerLeft}</span>
+                  <div className="banner-card__header-right">
+                    {banner.showTimer && <span className="banner-card__timer-dot" />}
+                    <span>{banner.headerRight}</span>
+                  </div>
+                </>
+              )}
             </div>
 
             {/* Content */}
-            <div 
-              className="banner-card__content"
+            <div
+              className={`banner-card__content ${banner.type === 'aoVivo' || banner.type === 'aoVivoTenis' ? 'banner-card__content--live' : ''}`}
               style={{ backgroundImage: `url(${banner.background})` }}
             >
-              <div className={`banner-card__info ${banner.odds ? 'banner-card__info--full' : ''}`}>
-                <div className="banner-card__text">
-                  <h3 className="banner-card__title">
-                    {banner.type === 'aumentada' && (
-                      <img src={iconAumentada} alt="" className="banner-card__boost-icon" />
-                    )}
-                    {banner.title}
-                  </h3>
-                  <p className="banner-card__description">
-                    {banner.description.split('\n').map((line, i) => (
-                      <span key={i}>{line}<br /></span>
-                    ))}
-                  </p>
+              {/* Ao Vivo Tennis Content */}
+              {banner.type === 'aoVivoTenis' && banner.tennisMatch && (
+                <div className="banner-card__live-content">
+                  <div className="banner-card__tennis-scores">
+                    <div className="banner-card__tennis-player">
+                      <div className="banner-card__tennis-score-box banner-card__tennis-score-box--filled">
+                        {banner.tennisMatch.player1.isServing && (
+                          <img src={iconTenis} alt="" className="banner-card__tennis-serve" />
+                        )}
+                        <span>{banner.tennisMatch.player1.sets}</span>
+                      </div>
+                      <div className="banner-card__tennis-score-box banner-card__tennis-score-box--outline">
+                        <span>{banner.tennisMatch.player1.games}</span>
+                      </div>
+                      <div className="banner-card__tennis-score-box banner-card__tennis-score-box--outline">
+                        <span>{banner.tennisMatch.player1.points}</span>
+                      </div>
+                      <span className="banner-card__tennis-player-name">{banner.tennisMatch.player1.name}</span>
+                    </div>
+                    <div className="banner-card__tennis-player">
+                      <div className="banner-card__tennis-score-box banner-card__tennis-score-box--filled">
+                        {banner.tennisMatch.player2.isServing && (
+                          <img src={iconTenis} alt="" className="banner-card__tennis-serve" />
+                        )}
+                        <span>{banner.tennisMatch.player2.sets}</span>
+                      </div>
+                      <div className="banner-card__tennis-score-box banner-card__tennis-score-box--outline">
+                        <span>{banner.tennisMatch.player2.games}</span>
+                      </div>
+                      <div className="banner-card__tennis-score-box banner-card__tennis-score-box--outline">
+                        <span>{banner.tennisMatch.player2.points}</span>
+                      </div>
+                      <span className="banner-card__tennis-player-name">{banner.tennisMatch.player2.name}</span>
+                    </div>
+                  </div>
+                  <div className="banner-card__live-odds">
+                    <button className="banner-card__live-odd-btn">
+                      <span className="banner-card__live-odd-team">{banner.tennisMatch.player1.name}</span>
+                      <span className="banner-card__live-odd-value">{banner.tennisMatch.odds.player1}</span>
+                    </button>
+                    <button className="banner-card__live-odd-btn">
+                      <span className="banner-card__live-odd-team">{banner.tennisMatch.player2.name}</span>
+                      <span className="banner-card__live-odd-value">{banner.tennisMatch.odds.player2}</span>
+                    </button>
+                  </div>
                 </div>
+              )}
 
-                {/* Botões padrão */}
-                {banner.buttonText && (
-                  <div className="banner-card__buttons">
-                    {banner.type === 'missao' && isMissionActivated(banner.id) ? (
-                      <button 
-                        className="banner-card__btn-activated"
-                        onClick={(e) => {
-                          e.stopPropagation()
-                          handleOpenMissionInfo(banner)
-                        }}
-                      >
-                        <div className="banner-card__btn-activated-left">
-                          <img src={iconAtivo} alt="" className="banner-card__btn-activated-icon" />
-                          <span>Acompanhar</span>
-                        </div>
-                        <div className="banner-card__btn-activated-divider" />
-                        <div className="banner-card__btn-activated-right">
-                          <span className="banner-card__btn-activated-label">Progresso</span>
-                          <span className="banner-card__btn-activated-value">
-                            R${getMissionProgress(banner.id)?.current || 0} de R${getMissionProgress(banner.id)?.target || 100}
-                          </span>
-                        </div>
+              {/* Ao Vivo Content */}
+              {banner.type === 'aoVivo' && banner.liveMatch && (
+                <div className="banner-card__live-content">
+                  <div className="banner-card__live-scores">
+                    <div className="banner-card__live-team">
+                      <div className="banner-card__live-score-box">
+                        <span>{banner.liveMatch.homeTeam.score}</span>
+                      </div>
+                      <span className="banner-card__live-team-name">{banner.liveMatch.homeTeam.name}</span>
+                    </div>
+                    <div className="banner-card__live-team">
+                      <div className="banner-card__live-score-box">
+                        <span>{banner.liveMatch.awayTeam.score}</span>
+                      </div>
+                      <span className="banner-card__live-team-name">{banner.liveMatch.awayTeam.name}</span>
+                    </div>
+                  </div>
+                  <div className="banner-card__live-odds">
+                    <button className="banner-card__live-odd-btn">
+                      <span className="banner-card__live-odd-team">{banner.liveMatch.homeTeam.name}</span>
+                      <span className="banner-card__live-odd-value">{banner.liveMatch.odds.home}</span>
+                    </button>
+                    {banner.liveMatch.odds.draw && (
+                      <button className="banner-card__live-odd-btn">
+                        <span className="banner-card__live-odd-team">Empate</span>
+                        <span className="banner-card__live-odd-value">{banner.liveMatch.odds.draw}</span>
                       </button>
-                    ) : (
-                      <>
+                    )}
+                    <button className="banner-card__live-odd-btn">
+                      <span className="banner-card__live-odd-team">{banner.liveMatch.awayTeam.name}</span>
+                      <span className="banner-card__live-odd-value">{banner.liveMatch.odds.away}</span>
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* Regular Content */}
+              {banner.type !== 'aoVivo' && banner.type !== 'aoVivoTenis' && (
+                <div className={`banner-card__info ${banner.odds ? 'banner-card__info--full' : ''}`}>
+                  <div className="banner-card__text">
+                    <h3 className="banner-card__title">
+                      {banner.type === 'aumentada' && (
+                        <img src={iconAumentada} alt="" className="banner-card__boost-icon" />
+                      )}
+                      {banner.title}
+                    </h3>
+                    <p className="banner-card__description">
+                      {banner.description.split('\n').map((line, i) => (
+                        <span key={i}>{line}<br /></span>
+                      ))}
+                    </p>
+                  </div>
+
+                  {/* Botões padrão */}
+                  {banner.buttonText && (
+                    <div className="banner-card__buttons">
+                      {banner.type === 'missao' && isMissionActivated(banner.id) ? (
                         <button 
-                          className="banner-card__btn"
+                          className="banner-card__btn-activated"
                           onClick={(e) => {
                             e.stopPropagation()
-                            if (banner.type === 'missao') {
-                              handleActivateMission(banner.id, 100)
-                            }
+                            handleOpenMissionInfo(banner)
                           }}
                         >
-                          {banner.buttonText}
+                          <div className="banner-card__btn-activated-left">
+                            <img src={iconAtivo} alt="" className="banner-card__btn-activated-icon" />
+                            <span>Acompanhar</span>
+                          </div>
+                          <div className="banner-card__btn-activated-divider" />
+                          <div className="banner-card__btn-activated-right">
+                            <span className="banner-card__btn-activated-label">Progresso</span>
+                            <span className="banner-card__btn-activated-value">
+                              R${getMissionProgress(banner.id)?.current || 0} de R${getMissionProgress(banner.id)?.target || 100}
+                            </span>
+                          </div>
                         </button>
-                        {banner.showInfoBtn && (
+                      ) : (
+                        <>
                           <button 
-                            className="banner-card__btn banner-card__btn--icon"
+                            className="banner-card__btn"
                             onClick={(e) => {
                               e.stopPropagation()
                               if (banner.type === 'missao') {
-                                handleOpenMissionInfo(banner)
+                                handleActivateMission(banner.id, 100)
                               }
                             }}
                           >
-                            <img src={iconSaibaMais} alt="Saiba mais" />
+                            {banner.buttonText}
                           </button>
-                        )}
-                      </>
-                    )}
-                  </div>
-                )}
+                          {banner.showInfoBtn && (
+                            <button 
+                              className="banner-card__btn banner-card__btn--icon"
+                              onClick={(e) => {
+                                e.stopPropagation()
+                                if (banner.type === 'missao') {
+                                  handleOpenMissionInfo(banner)
+                                }
+                              }}
+                            >
+                              <img src={iconSaibaMais} alt="Saiba mais" />
+                            </button>
+                          )}
+                        </>
+                      )}
+                    </div>
+                  )}
 
-                {/* Odds 1x2 */}
-                {banner.odds && (
-                  <div className="banner-card__odds">
-                    {banner.odds.map((odd, i) => (
-                      <button key={i} className="banner-card__odd-btn">
-                        <span className="banner-card__odd-team">{odd.team}</span>
-                        <span className="banner-card__odd-value">{odd.value}</span>
-                      </button>
-                    ))}
-                  </div>
-                )}
+                  {/* Odds 1x2 */}
+                  {banner.odds && (
+                    <div className="banner-card__odds">
+                      {banner.odds.map((odd, i) => (
+                        <button key={i} className="banner-card__odd-btn">
+                          <span className="banner-card__odd-team">{odd.team}</span>
+                          <span className="banner-card__odd-value">{odd.value}</span>
+                        </button>
+                      ))}
+                    </div>
+                  )}
 
-                {/* Odd aumentada */}
-                {banner.oddBoosted && (
-                  <button className="banner-card__boosted-btn">
-                    <span className="banner-card__old-odd">{banner.oddBoosted.old}</span>
-                    <img src={iconBoostWhite} alt="" className="banner-card__arrow" />
-                    <span className="banner-card__new-odd">{banner.oddBoosted.new}</span>
-                  </button>
-                )}
-              </div>
+                  {/* Odd aumentada */}
+                  {banner.oddBoosted && (
+                    <button className="banner-card__boosted-btn">
+                      <span className="banner-card__old-odd">{banner.oddBoosted.old}</span>
+                      <img src={iconBoostWhite} alt="" className="banner-card__arrow" />
+                      <span className="banner-card__new-odd">{banner.oddBoosted.new}</span>
+                    </button>
+                  )}
+                </div>
+              )}
             </div>
           </div>
         ))}

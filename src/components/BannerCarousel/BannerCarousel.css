@@ -46,7 +46,7 @@
   justify-content: space-between;
   background-color: #123b24;
   padding: 8px 20px;
-  border-radius: 4px 4px 0 0;
+  border-radius: 8px 8px 0 0;
   height: 28px;
   box-sizing: border-box;
 }
@@ -341,7 +341,7 @@
   width: 0;
   background-color: #171717;
   border-radius: 3px;
-  animation: bulletProgress 8s linear forwards;
+  animation: bulletProgress 10s linear forwards;
 }
 
 @keyframes bulletProgress {
@@ -351,5 +351,249 @@
   to {
     width: 100%;
   }
+}
+
+/* Ao Vivo Banner Styles */
+.banner-card__header-left-live {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Tag Ao Vivo - Same pattern as LiveSection */
+.banner-card__tag-aovivo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  border-right: 1px solid rgba(50, 168, 102, 0.4);
+  padding-right: 8px;
+}
+
+.banner-card__tag-aovivo span {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 8px;
+  font-weight: 700;
+  color: #32a866;
+  white-space: nowrap;
+}
+
+.banner-card__tag-icon-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 12px;
+  height: 12px;
+  isolation: isolate;
+}
+
+.banner-card__tag-icon-wrapper::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 6px;
+  height: 6px;
+  background-color: transparent;
+  border: 0.5px solid #32a866;
+  border-radius: 50%;
+  animation: banner-ping-live 6s linear infinite;
+  z-index: 0;
+}
+
+.banner-card__tag-icon {
+  width: 12px;
+  height: 12px;
+  object-fit: contain;
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes banner-ping-live {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+  33.33% {
+    transform: translate(-50%, -50%) scale(3);
+    opacity: 0;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0;
+  }
+}
+
+.banner-card__match-time {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.banner-card__header-right-text {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 400;
+  color: #ffffff;
+}
+
+.banner-card__content--live {
+  background-color: #1e1e1e;
+  background-size: cover;
+  background-position: right center;
+}
+
+.banner-card__live-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.banner-card__live-scores {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-height: 60px;
+  justify-content: center;
+}
+
+.banner-card__live-team {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 20px;
+}
+
+.banner-card__live-score-box {
+  width: 32px;
+  height: 20px;
+  background-color: #123b24;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.banner-card__live-score-box span {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.banner-card__live-team-name {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.36;
+}
+
+.banner-card__live-odds {
+  display: flex;
+  gap: 4px;
+  width: 100%;
+}
+
+.banner-card__live-odd-btn {
+  flex: 1;
+  height: 32px;
+  background-color: #123b24;
+  border: none;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  cursor: pointer;
+  padding: 0 4px;
+}
+
+.banner-card__live-odd-team {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  color: #ffffff;
+  text-align: center;
+  line-height: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.banner-card__live-odd-value {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1;
+}
+
+/* Tennis Banner Styles */
+.banner-card__tennis-scores {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-height: 60px;
+  justify-content: center;
+}
+
+.banner-card__tennis-player {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 20px;
+  position: relative;
+}
+
+.banner-card__tennis-score-box {
+  width: 24px;
+  height: 20px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.banner-card__tennis-score-box--filled {
+  background-color: #123b24;
+}
+
+.banner-card__tennis-serve {
+  position: absolute;
+  left: 0px;
+  top: 6px;
+  transform: translateX(-50%);
+  width: 8px;
+  height: 8px;
+  object-fit: contain;
+}
+
+.banner-card__tennis-score-box--outline {
+  background-color: transparent;
+  border: 1px solid #123b24;
+}
+
+.banner-card__tennis-score-box span {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1;
+}
+
+.banner-card__tennis-player-name {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.36;
+  margin-left: 4px;
 }
 

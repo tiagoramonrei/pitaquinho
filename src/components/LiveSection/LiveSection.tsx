@@ -55,6 +55,9 @@ import escudoWesleyan from '../../assets/escudoWesleyan.png'
 import flagGrecia from '../../assets/flagGrecia.png'
 import flagItalia from '../../assets/flagItalia.png'
 import flagBulgaria from '../../assets/flagBulgaria.png'
+// Rei Antecipa badges
+import reiAntecipaFutebol from '../../assets/reiAntecipaFutebol.png'
+import reiAntecipaBasquete from '../../assets/reiAntecipaBasquete.png'
 
 interface SportChip {
   id: string
@@ -90,6 +93,7 @@ interface Match {
     homeOrAway: string
     awayOrDraw: string
   }
+  extraBets?: number // Número de apostas extras (+2, +20, etc)
   bothTeamsScoreOdds?: {
     yes: string
     no: string
@@ -178,6 +182,7 @@ const leagues: League[] = [
         bothTeamsScoreOdds: { yes: '1.45x', no: '2.60x' },
         totalGoalsOdds: { line: 3.5, under: '1.35x', over: '3.10x' },
         totalCornersOdds: { line: 9.5, under: '1.75x', over: '2.00x' },
+        extraBets: 2,
       },
       {
         id: '2',
@@ -201,6 +206,7 @@ const leagues: League[] = [
         bothTeamsScoreOdds: { yes: '1.85x', no: '1.90x' },
         totalGoalsOdds: { line: 2.5, under: '1.75x', over: '2.00x' },
         totalCornersOdds: { line: 9.5, under: '1.90x', over: '1.85x' },
+        extraBets: 2,
       },
     ],
   },
@@ -390,6 +396,7 @@ const leagues: League[] = [
         handicapOdds: { line: 6.5, home: '1.88x', away: '1.92x' },
         q3TotalOdds: { line: 54.5, under: '1.85x', over: '1.95x' },
         q4TotalOdds: { line: 56.5, under: '1.90x', over: '1.90x' },
+        extraBets: 20,
       },
       {
         id: 'nba-2',
@@ -549,10 +556,9 @@ function updateTime(timeStr: string): string {
       newMinutes -= 1
     }
 
-    // If time reaches 0:00, stay at 0:00 (end of quarter)
-    if (newMinutes < 0) {
-      newMinutes = 0
-      newSeconds = 0
+    // If time reaches 0:00, change to Intervalo
+    if (newMinutes <= 0 && newSeconds <= 0) {
+      return 'Intervalo'
     }
 
     return formatMatchTime(period, newMinutes, newSeconds, isQuarter)

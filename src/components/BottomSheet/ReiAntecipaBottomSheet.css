@@ -1,0 +1,39 @@
+/* Rei Antecipa Content */
+.rei-antecipa-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 0 20px;
+}
+
+.rei-antecipa-content__icon {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+}
+
+.rei-antecipa-content__info {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  text-align: center;
+}
+
+.rei-antecipa-content__title {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.rei-antecipa-content__description {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  color: #e3e3e3;
+  line-height: 1.4;
+  margin: 0;
+}

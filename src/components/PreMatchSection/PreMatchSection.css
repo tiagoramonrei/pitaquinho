@@ -293,10 +293,40 @@
   width: 20px;
   height: 20px;
   object-fit: contain;
-  margin-left: 8px;
-  padding-left: 8px;
+  margin-left: 4px;
+  padding-left: 4px;
   border-left: 1px solid #242424;
   box-sizing: content-box;
+}
+
+/* Pag. Antecipado */
+.prematch-section__match-info-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+
+.prematch-section__pag-antecipado {
+  display: flex;
+  align-items: center;
+  gap: 0px;
+}
+
+.prematch-section__pag-antecipado-label {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 8px;
+  background-color: #242424;
+  padding: 0 4px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.4);
+  border-radius: 2px 0 0 2px;
+}
+
+.prematch-section__rei-antecipa {
+  width: 20px;
+  height: 12px;
+  object-fit: contain;
 }
 
 /* Odds */
@@ -371,3 +401,16 @@
   height: 20px;
   object-fit: contain;
 }
+
+/* Clickable info content */
+.prematch-section__match-info-content--clickable {
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  user-select: none;
+}
+

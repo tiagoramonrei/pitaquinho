@@ -64,6 +64,11 @@ import escudoWolfsburg from '../../assets/escudoWolfsburg.png'
 import escudoEintracht from '../../assets/escudoEintracht.png'
 import escudoAugsburg from '../../assets/escudoAugsburg.png'
 import escudoHamburger from '../../assets/escudoHamburger.png'
+// Rei Antecipa badges
+import reiAntecipaFutebol from '../../assets/reiAntecipaFutebol.png'
+import reiAntecipaBasquete from '../../assets/reiAntecipaBasquete.png'
+// Bottom Sheet
+import { ReiAntecipaBottomSheet } from '../BottomSheet/ReiAntecipaBottomSheet'
 
 interface SportChip {
   id: string
@@ -132,6 +137,7 @@ interface Match {
     under: string
     over: string
   }
+  extraBets?: number // Número de apostas extras (+2, +20, etc)
 }
 
 interface League {
@@ -185,6 +191,7 @@ const leagues: League[] = [
         bothTeamsScoreOdds: { yes: '1.85x', no: '1.90x' },
         totalGoalsOdds: { line: 2.5, under: '1.85x', over: '1.90x' },
         totalCornersOdds: { line: 9.5, under: '1.80x', over: '1.95x' },
+        extraBets: 2,
       },
       {
         id: '2',
@@ -196,6 +203,7 @@ const leagues: League[] = [
         bothTeamsScoreOdds: { yes: '1.75x', no: '2.00x' },
         totalGoalsOdds: { line: 2.5, under: '1.80x', over: '1.95x' },
         totalCornersOdds: { line: 9.5, under: '1.85x', over: '1.90x' },
+        extraBets: 2,
       },
       {
         id: '3',
@@ -227,6 +235,7 @@ const leagues: League[] = [
         bothTeamsScoreOdds: { yes: '1.55x', no: '2.30x' },
         totalGoalsOdds: { line: 2.5, under: '2.10x', over: '1.70x' },
         totalCornersOdds: { line: 10.5, under: '1.75x', over: '2.00x' },
+        extraBets: 2,
       },
       {
         id: '5',
@@ -238,6 +247,7 @@ const leagues: League[] = [
         bothTeamsScoreOdds: { yes: '1.50x', no: '2.40x' },
         totalGoalsOdds: { line: 2.5, under: '2.05x', over: '1.75x' },
         totalCornersOdds: { line: 10.5, under: '1.82x', over: '1.92x' },
+        extraBets: 2,
       },
       {
         id: '6',
@@ -269,6 +279,7 @@ const leagues: League[] = [
         bothTeamsScoreOdds: { yes: '1.60x', no: '2.20x' },
         totalGoalsOdds: { line: 2.5, under: '2.00x', over: '1.78x' },
         totalCornersOdds: { line: 10.5, under: '1.78x', over: '1.98x' },
+        extraBets: 2,
       },
       {
         id: '7',
@@ -353,6 +364,7 @@ const leagues: League[] = [
         bothTeamsScoreOdds: { yes: '1.45x', no: '2.60x' },
         totalGoalsOdds: { line: 2.5, under: '2.15x', over: '1.68x' },
         totalCornersOdds: { line: 10.5, under: '1.75x', over: '2.00x' },
+        extraBets: 2,
       },
       {
         id: '13',
@@ -396,6 +408,7 @@ const leagues: League[] = [
         handicapOdds: { line: 6.5, home: '1.88x', away: '1.92x' },
         q3TotalOdds: { line: 54.5, under: '1.85x', over: '1.95x' },
         q4TotalOdds: { line: 56.5, under: '1.90x', over: '1.90x' },
+        extraBets: 20,
       },
       {
         id: 'nba-pre-2',
@@ -407,6 +420,7 @@ const leagues: League[] = [
         handicapOdds: { line: -4.5, home: '1.90x', away: '1.90x' },
         q3TotalOdds: { line: 57.5, under: '1.88x', over: '1.92x' },
         q4TotalOdds: { line: 58.5, under: '1.85x', over: '1.95x' },
+        extraBets: 20,
       },
       {
         id: 'nba-pre-3',
@@ -438,6 +452,7 @@ const leagues: League[] = [
         handicapOdds: { line: 7.5, home: '1.88x', away: '1.92x' },
         q3TotalOdds: { line: 35.5, under: '1.85x', over: '1.95x' },
         q4TotalOdds: { line: 36.5, under: '1.90x', over: '1.90x' },
+        extraBets: 20,
       },
       {
         id: 'ncaab-pre-2',
@@ -480,6 +495,7 @@ const leagues: League[] = [
         handicapOdds: { line: -3.5, home: '1.88x', away: '1.92x' },
         q3TotalOdds: { line: 39.5, under: '1.85x', over: '1.95x' },
         q4TotalOdds: { line: 40.5, under: '1.90x', over: '1.90x' },
+        extraBets: 20,
       },
       {
         id: 'euro-pre-2',
@@ -522,6 +538,7 @@ const leagues: League[] = [
         handicapOdds: { line: -6.5, home: '1.88x', away: '1.92x' },
         q3TotalOdds: { line: 42.5, under: '1.85x', over: '1.95x' },
         q4TotalOdds: { line: 43.5, under: '1.90x', over: '1.90x' },
+        extraBets: 20,
       },
       {
         id: 'arg-pre-2',
@@ -564,6 +581,7 @@ const leagues: League[] = [
         handicapOdds: { line: -5.5, home: '1.88x', away: '1.92x' },
         q3TotalOdds: { line: 43.5, under: '1.85x', over: '1.95x' },
         q4TotalOdds: { line: 44.5, under: '1.90x', over: '1.90x' },
+        extraBets: 20,
       },
     ],
   },
@@ -575,6 +593,8 @@ export function PreMatchSection() {
   const [openLeagues, setOpenLeagues] = useState<string[]>(
     leagues.filter((l) => l.isOpen).map((l) => l.id)
   )
+  const [showBottomSheet, setShowBottomSheet] = useState(false)
+  const [bottomSheetSport, setBottomSheetSport] = useState<'futebol' | 'basquete'>('futebol')
   
   // Refs for auto-scroll chips
   const sportChipsRef = useRef<HTMLDivElement>(null)
@@ -590,6 +610,11 @@ export function PreMatchSection() {
       setActiveMarket('resultado-final')
     }
   }, [activeSport])
+
+  const openReiAntecipaSheet = (sport: 'futebol' | 'basquete') => {
+    setBottomSheetSport(sport)
+    setShowBottomSheet(true)
+  }
 
   // Get current market chips and filtered leagues based on sport
   const currentMarketChips = activeSport === 'basquete' ? basketballMarketChips : footballMarketChips
@@ -739,7 +764,27 @@ export function PreMatchSection() {
                             </div>
                           </div>
                           <div className="prematch-section__match-info">
-                            <span className="prematch-section__match-datetime">{match.dateTime}</span>
+                            {match.extraBets ? (
+                              <button 
+                                type="button"
+                                className="prematch-section__match-info-content prematch-section__match-info-content--clickable"
+                                onClick={(e) => { e.stopPropagation(); openReiAntecipaSheet(league.sport as 'futebol' | 'basquete'); }}
+                              >
+                                <div className="prematch-section__pag-antecipado">
+                                  <span className="prematch-section__pag-antecipado-label">Pag. Antecipado</span>
+                                  <img 
+                                    src={league.sport === 'basquete' ? reiAntecipaBasquete : reiAntecipaFutebol} 
+                                    alt="" 
+                                    className="prematch-section__rei-antecipa" 
+                                  />
+                                </div>
+                                <span className="prematch-section__match-datetime">{match.dateTime}</span>
+                              </button>
+                            ) : (
+                              <div className="prematch-section__match-info-content">
+                                <span className="prematch-section__match-datetime">{match.dateTime}</span>
+                              </div>
+                            )}
                             <img src={setaLink} alt="" className="prematch-section__match-arrow" />
                           </div>
                         </div>
@@ -890,6 +935,13 @@ export function PreMatchSection() {
           <img src={setaLink} alt="" className="prematch-section__more-icon" />
         </button>
       </div>
+
+      {/* Bottom Sheet - Rei Antecipa */}
+      <ReiAntecipaBottomSheet
+        isOpen={showBottomSheet}
+        onClose={() => setShowBottomSheet(false)}
+        sport={bottomSheetSport}
+      />
     </section>
   )
 }
