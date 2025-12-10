@@ -27,63 +27,78 @@
 
 .promotion-section__icon {
   width: 20px;
-  height: 14px;
+  height: 20px;
   object-fit: contain;
 }
 
-/* Lista de promoções - slider horizontal */
 .promotion-section__list {
   display: flex;
   gap: 8px;
-  overflow-x: auto;
-  overflow-y: hidden;
   padding: 0 20px;
-  scroll-padding-left: 20px;
-  scroll-snap-type: x mandatory;
-  scroll-behavior: smooth;
+  overflow-x: auto;
   -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
   scrollbar-width: none;
   -ms-overflow-style: none;
-  touch-action: pan-x pan-y;
-  user-select: none;
-  -webkit-user-select: none;
-  cursor: grab;
-  overscroll-behavior-x: none;
-}
-
-.promotion-section__list--dragging {
-  cursor: grabbing;
-  scroll-snap-type: none;
-  scroll-behavior: auto;
 }
 
 .promotion-section__list::-webkit-scrollbar {
   display: none;
 }
 
-/* Card de promoção */
-.promo-card {
-  flex-shrink: 0;
-  width: 304px;
-  scroll-snap-align: start;
-  background-color: #1e1e1e;
-  border-radius: 8px;
-  padding: 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+.promotion-section__list--dragging {
+  cursor: grabbing;
+  scroll-behavior: auto;
 }
 
-.promo-card--clickable {
+/* Card Styles */
+.promo-card {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  width: 148px;
   cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.promo-card:active {
+  transform: scale(0.98);
+}
+
+.promo-card__image-wrapper {
+  width: 148px;
+  height: 40px;
+  overflow: hidden;
+  border-radius: 8px 8px 0 0;
+  background-color: #1e1e1e;
+  position: relative;
+}
+
+.promo-card__image {
+  position: absolute;
+  width: 100%;
+  height: auto;
+  min-height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  top: 0;
+  left: 0;
+}
+
+.promo-card__content {
+  display: flex;
+  flex-direction: column;
+  padding: 12px;
+  background-color: #1e1e1e;
+  border-radius: 0 0 8px 8px;
 }
 
 .promo-card__header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
   padding-bottom: 8px;
+  margin-bottom: 8px;
   border-bottom: 1px solid #242424;
+  display: flex;
+  align-items: flex-start;
 }
 
 .promo-card__type {
@@ -92,99 +107,35 @@
   font-weight: 700;
   color: #ffffff;
   line-height: 1;
-  white-space: nowrap;
-}
-
-.promo-card__time {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.promo-card__dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background-color: #AD0924;
-}
-
-.promo-card__time-label {
-  font-family: 'DM Sans', sans-serif;
-  font-size: 10px;
-  font-weight: 400;
-  color: #ffffff;
-  line-height: 1;
-  white-space: nowrap;
+  margin: 0;
+  padding: 0;
+  display: block;
 }
 
 .promo-card__progress {
-  font-family: 'DM Sans', sans-serif;
-  font-size: 10px;
   font-weight: 400;
-  color: #ffffff;
-  line-height: 1;
-  white-space: nowrap;
 }
 
 .promo-card__progress strong {
   font-weight: 700;
 }
 
-/* Conteúdo do card */
-.promo-card__content {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  height: 48px;
-}
-
-.promo-card__image-wrapper {
-  flex-shrink: 0;
-  width: 48px;
-  height: 48px;
-  border-radius: 4px;
-  border: 1px solid #19954f;
-  overflow: hidden;
-}
-
-.promo-card__image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
 .promo-card__text {
-  flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  justify-content: center;
-  min-width: 0;
 }
 
 .promo-card__title {
   font-family: 'DM Sans', sans-serif;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 700;
-  color: #ffffff;
-  line-height: 1.4;
-  margin: 0;
-}
-
-.promo-card__description {
-  font-family: 'DM Sans', sans-serif;
-  font-size: 10px;
-  font-weight: 400;
   color: #ffffff;
   line-height: 1.2;
   margin: 0;
 }
 
-/* Vantagem Bottom Sheet Styles */
+/* Vantagem Section Styles (from BottomSheet) */
 .vantagem-section {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
   padding: 0 20px;
 }
 
@@ -193,65 +144,48 @@
   font-size: 14px;
   font-weight: 700;
   color: #ffffff;
-  line-height: 1.4;
-  margin: 0;
+  margin: 0 0 16px 0;
 }
 
 .vantagem-cards {
   display: flex;
-  gap: 8px;
-  overflow-x: auto;
-  margin: 0 -20px;
-  padding: 0 20px;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-  -webkit-overflow-scrolling: touch;
-}
-
-.vantagem-cards::-webkit-scrollbar {
-  display: none;
-}
-
-.vantagem-card {
-  flex-shrink: 0;
-  width: 304px;
-  background-color: #242424;
-  border-radius: 8px;
-  padding: 20px;
-  display: flex;
-  align-items: center;
+  flex-direction: column;
   gap: 12px;
 }
 
+.vantagem-card {
+  display: flex;
+  gap: 12px;
+  padding: 16px;
+  background-color: #242424;
+  border-radius: 8px;
+}
+
 .vantagem-card__number {
-  width: 40px;
-  height: 40px;
-  min-width: 40px;
-  background-color: #32a866;
-  border-radius: 100px;
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 24px;
+  height: 24px;
+  background-color: #32a866;
+  border-radius: 50%;
   font-family: 'DM Sans', sans-serif;
-  font-size: 24px;
+  font-size: 12px;
   font-weight: 700;
   color: #ffffff;
-  letter-spacing: -0.96px;
+  flex-shrink: 0;
 }
 
 .vantagem-card__text {
   font-family: 'DM Sans', sans-serif;
   font-size: 12px;
-  font-weight: 500;
-  color: #ffffff;
-  line-height: 1.2;
+  font-weight: 400;
+  color: #b3b3b3;
+  line-height: 1.4;
   margin: 0;
 }
 
 .vantagem-faq {
-  display: flex;
-  flex-direction: column;
-  margin-top: 24px;
   padding: 0 20px;
+  margin-top: 24px;
 }
-

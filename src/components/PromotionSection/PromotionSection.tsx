@@ -2,9 +2,14 @@ import { useState, useRef } from 'react'
 import './PromotionSection.css'
 
 import iconPromocao from '../../assets/iconPromocao.png'
+// Images for cards
 import imgMissaoVerdao from '../../assets/imgMissaoVerdao.png'
 import imgVantagemRei from '../../assets/imgVatagemReiTurnina.png'
 import imgMissaoBrasileirao from '../../assets/imgMissaoBrasileirao.png'
+// Images for BottomSheet
+import imgMissaoVerdaoBS from '../../assets/imgMissaoVerdaoBS.png'
+import imgVantagemReiBS from '../../assets/imgVatagemReiTurninaBS.png'
+import imgMissaoBrasileiraoBS from '../../assets/imgMissaoBrasileiraoBS.png'
 import iconAccordion from '../../assets/iconAccordion.png'
 
 import { 
@@ -24,6 +29,7 @@ interface Promotion {
   title: string
   description: string
   image: string
+  bsImage: string
 }
 
 const promotions: Promotion[] = [
@@ -32,31 +38,33 @@ const promotions: Promotion[] = [
     type: 'missao',
     timeLabel: 'Termina em 3 dias',
     hasTimer: true,
-    title: 'Aposte no Verdão!',
+    title: 'Aposte no Verdão e ganhe R$50!',
     description: 'Aposte R$50 no jogo do Palmeiras na Liberta e ganhe R$10 em créditos.',
     image: imgMissaoVerdao,
+    bsImage: imgMissaoVerdaoBS,
   },
   {
     id: '2',
     type: 'vantagem',
     timeLabel: 'Só no Rei',
     hasTimer: false,
-    title: 'Fature até 200%!',
+    title: 'Fature até 200% na múltipla.',
     description: 'Aposte em múltiplas e o Rei turbina o seu prêmio em até 200%.',
     image: imgVantagemRei,
+    bsImage: imgVantagemReiBS,
   },
   {
     id: '3',
     type: 'missao',
     timeLabel: 'Termina em 3 dias',
     hasTimer: true,
-    title: 'Tem brasileirão!',
+    title: 'Ganhe R$5 no brasileirão.',
     description: 'Ganhe 5 créditos de apostas no brasileirão. É apostar e ganhar.',
     image: imgMissaoBrasileirao,
+    bsImage: imgMissaoBrasileiraoBS,
   },
 ]
 
-// Mission progress data
 interface MissionProgress {
   current: number
   target: number
@@ -74,7 +82,6 @@ export function PromotionSection() {
   const dragDistance = useRef(0)
 
   const handlePromoClick = (promo: Promotion) => {
-    // Open bottom sheet if wasn't a drag
     if (dragDistance.current < 5) {
       setSelectedPromo(promo)
       setIsBottomSheetOpen(true)
@@ -86,10 +93,8 @@ export function PromotionSection() {
       const promoId = selectedPromo.id
       const isAlreadyActivated = isMissionActivated(promoId)
       
-      // Just close the bottom sheet
       setIsBottomSheetOpen(false)
       
-      // If already activated (button is "Jogar"), just close without toast
       if (isAlreadyActivated) {
         setTimeout(() => {
           setSelectedPromo(null)
@@ -97,7 +102,6 @@ export function PromotionSection() {
         return
       }
       
-      // If not activated, activate and show toast
       const target = promoId === '1' ? 50 : 20
       setTimeout(() => {
         setActivatedMissions(prev => ({
@@ -112,7 +116,6 @@ export function PromotionSection() {
 
   const closeBottomSheet = () => {
     setIsBottomSheetOpen(false)
-    // Clear selected promo after animation completes
     setTimeout(() => {
       setSelectedPromo(null)
     }, 350)
@@ -126,36 +129,6 @@ export function PromotionSection() {
     return activatedMissions[promoId]
   }
 
-  // Centraliza no card mais próximo com sensibilidade ao arraste
-  const snapToNearestCard = (dragDelta: number = 0) => {
-    if (!scrollRef.current) return
-    const cardWidth = 304 + 8 // width + gap
-    const currentScroll = scrollRef.current.scrollLeft
-    const currentIndex = currentScroll / cardWidth
-    
-    let targetIndex: number
-    // Se arrastou mais que 30px, muda para o próximo/anterior
-    if (dragDelta > 30) {
-      targetIndex = Math.ceil(currentIndex)
-    } else if (dragDelta < -30) {
-      targetIndex = Math.floor(currentIndex)
-    } else {
-      targetIndex = Math.round(currentIndex)
-    }
-    
-    // Limita ao range válido
-    const maxIndex = Math.max(0, Math.ceil((scrollRef.current.scrollWidth - scrollRef.current.clientWidth) / cardWidth))
-    targetIndex = Math.max(0, Math.min(targetIndex, maxIndex))
-    
-    const targetScroll = targetIndex * cardWidth
-    
-    scrollRef.current.scrollTo({
-      left: targetScroll,
-      behavior: 'smooth'
-    })
-  }
-
-  // Drag to scroll para mouse
   const handleMouseDown = (e: React.MouseEvent) => {
     if (!scrollRef.current) return
     setIsDragging(true)
@@ -165,9 +138,7 @@ export function PromotionSection() {
   }
 
   const handleMouseUp = () => {
-    const delta = scrollRef.current ? scrollRef.current.scrollLeft - scrollLeft.current : 0
     setIsDragging(false)
-    snapToNearestCard(delta)
   }
 
   const handleMouseMove = (e: React.MouseEvent) => {
@@ -181,13 +152,9 @@ export function PromotionSection() {
 
   const handleMouseLeave = () => {
     if (isDragging) {
-      const delta = scrollRef.current ? scrollRef.current.scrollLeft - scrollLeft.current : 0
       setIsDragging(false)
-      snapToNearestCard(delta)
     }
   }
-
-  // Touch events removidos para usar scroll nativo
 
   return (
     <section id="section-promocoes" className="promotion-section">
@@ -213,32 +180,26 @@ export function PromotionSection() {
           return (
             <div 
               key={promo.id} 
-              className={`promo-card promo-card--clickable ${isActivated ? 'promo-card--activated' : ''}`}
+              className={`promo-card ${isActivated ? 'promo-card--activated' : ''}`}
               onClick={() => handlePromoClick(promo)}
             >
-              <div className="promo-card__header">
-                <span className="promo-card__type">
-                  {isActivated && progress && promo.type === 'missao' ? (
-                    <span className="promo-card__progress">
-                      Progresso: <strong>R${progress.current}</strong> de <strong>R${progress.target}</strong>
-                    </span>
-                  ) : (
-                    promo.type === 'missao' ? 'Missão' : 'Vantagem'
-                  )}
-                </span>
-                <div className="promo-card__time">
-                  {promo.hasTimer && <span className="promo-card__dot"></span>}
-                  <span className="promo-card__time-label">{promo.timeLabel}</span>
-                </div>
+              <div className="promo-card__image-wrapper">
+                <img src={promo.image} alt="" className="promo-card__image" />
               </div>
-
               <div className="promo-card__content">
-                <div className="promo-card__image-wrapper">
-                  <img src={promo.image} alt="" className="promo-card__image" />
+                <div className="promo-card__header">
+                  <span className="promo-card__type">
+                    {isActivated && progress && promo.type === 'missao' ? (
+                      <span className="promo-card__progress">
+                        Progresso: <strong>R${progress.current}</strong> de <strong>R${progress.target}</strong>
+                      </span>
+                    ) : (
+                      promo.type === 'missao' ? 'Missão' : 'Vantagem'
+                    )}
+                  </span>
                 </div>
                 <div className="promo-card__text">
-                  <h3 className="promo-card__title">{promo.title}</h3>
-                  <p className="promo-card__description">{promo.description}</p>
+                  <p className="promo-card__title">{promo.title}</p>
                 </div>
               </div>
             </div>
@@ -251,18 +212,16 @@ export function PromotionSection() {
         <BottomSheet
           isOpen={isBottomSheetOpen}
           onClose={closeBottomSheet}
-          title={selectedPromo.title}
-          titleIcon={selectedPromo.image}
+          title={selectedPromo.title.replace(' e ganhe R$50!', '').replace(' no brasileirão.', '')}
+          titleIcon={selectedPromo.bsImage}
           footerContent={
             <button className="bottom-sheet__btn-primary" onClick={handleActivateMission}>
               <span>{isMissionActivated(selectedPromo.id) ? 'Jogar' : 'Ativar Missão'}</span>
             </button>
           }
         >
-          {/* Mission Description */}
           <p className="mission-description">{selectedPromo.description}</p>
 
-          {/* Mission Box */}
           <div className="mission-box">
             <div className="mission-box__header">
               <MissionTimer text={selectedPromo.timeLabel} />
@@ -302,7 +261,6 @@ export function PromotionSection() {
             </div>
           </div>
 
-          {/* Mission Info Section */}
           <div className="mission-info-section">
             <div className="mission-info-header">
               <span className="mission-info-header__title">Informações sobre a Missão</span>
@@ -317,7 +275,6 @@ export function PromotionSection() {
               <MissionInfoRow label="Validade do Bônus" value="7 dias após o recebimento" />
             </div>
 
-            {/* FAQ Section */}
             <div className="mission-faq">
               <MissionFaqItem question="Como posso participar da missão" />
               <MissionFaqItem question="Preciso ativar a missão para participar?" />
@@ -336,9 +293,8 @@ export function PromotionSection() {
           isOpen={isBottomSheetOpen}
           onClose={closeBottomSheet}
           title="Rei Turbina"
-          titleIcon={selectedPromo.image}
+          titleIcon={selectedPromo.bsImage}
         >
-          {/* Como Funciona Section */}
           <div className="vantagem-section">
             <h3 className="vantagem-section__title">Entenda como funciona:</h3>
             <div className="vantagem-cards">
@@ -363,7 +319,6 @@ export function PromotionSection() {
             </div>
           </div>
 
-          {/* FAQ Section */}
           <div className="vantagem-faq">
             <MissionFaqItem 
               question="O que é o Rei Turbina?" 
@@ -394,7 +349,6 @@ export function PromotionSection() {
         </BottomSheet>
       )}
 
-      {/* Success Toast */}
       <Toast
         isVisible={showToast}
         onClose={() => setShowToast(false)}
@@ -404,4 +358,3 @@ export function PromotionSection() {
     </section>
   )
 }
-

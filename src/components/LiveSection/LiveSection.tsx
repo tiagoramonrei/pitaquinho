@@ -77,6 +77,7 @@ interface Team {
 interface Match {
   id: string
   time: string
+  status?: 'running' | 'halftime' // halftime = Intervalo
   homeTeam: Team
   awayTeam: Team
   odds: {
@@ -191,7 +192,8 @@ const leagues: League[] = [
       },
       {
         id: '11',
-        time: '1T 15:22',
+        time: 'Intervalo',
+        status: 'halftime',
         homeTeam: { name: 'Mirassol', icon: escudoMirasol, score: 0 },
         awayTeam: { name: 'São Paulo', icon: escudoSaoPaulo, score: 1 },
         odds: { home: '4.50x', draw: '3.80x', away: '1.70x' },
@@ -530,6 +532,11 @@ function formatMatchTime(period: number, minutes: number, seconds: number, isQua
 
 // Helper function to update time by 1 second (increment for football, decrement for basketball)
 function updateTime(timeStr: string): string {
+  // Don't update halftime/interval times
+  if (timeStr === 'Intervalo' || timeStr === 'INT') {
+    return timeStr
+  }
+
   const { period, minutes, seconds, isQuarter } = parseMatchTime(timeStr)
   
   if (isQuarter) {
@@ -738,8 +745,11 @@ export function LiveSection() {
                         {/* Match Header */}
                         <div className="live-section__match-header">
                           <div className="live-section__match-time">
-                            <div className="live-section__match-live-wrapper">
-                              <img src={iconAoVivo} alt="" className="live-section__match-live-icon" />
+                            <div className="live-section__tag-aovivo">
+                              <div className="live-section__tag-icon-wrapper">
+                                <img src={iconAoVivo} alt="" className="live-section__tag-icon" />
+                              </div>
+                              <span>Ao Vivo</span>
                             </div>
                             <span>{getMatchTime(match.id, match.time)}</span>
                           </div>

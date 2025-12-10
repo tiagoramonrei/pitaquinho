@@ -235,16 +235,70 @@
 .live-section__match-time {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 8px;
 }
 
-.live-section__match-time span {
+.live-section__match-time > span {
   font-family: 'DM Sans', sans-serif;
   font-size: 10px;
   font-weight: 700;
   color: #ffffff;
 }
 
+/* Tag Ao Vivo */
+.live-section__tag-aovivo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 0 4px;
+  background-color: #242424;
+  border-radius: 4px;
+  height: 16px;
+}
+
+.live-section__tag-aovivo span {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 8px;
+  font-weight: 700;
+  color: #32a866;
+  white-space: nowrap;
+}
+
+.live-section__tag-icon-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 12px;
+  height: 12px;
+  isolation: isolate;
+}
+
+.live-section__tag-icon-wrapper::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 6px;
+  height: 6px;
+  background-color: transparent;
+  border: 0.5px solid #32a866;
+  border-radius: 50%;
+  animation: ping-live 6s linear infinite;
+  z-index: 0;
+}
+
+.live-section__tag-icon {
+  width: 12px;
+  height: 12px;
+  object-fit: contain;
+  position: relative;
+  z-index: 1;
+}
+
+/* Keep old styles for backwards compatibility */
 .live-section__match-live-wrapper {
   position: relative;
   display: flex;
