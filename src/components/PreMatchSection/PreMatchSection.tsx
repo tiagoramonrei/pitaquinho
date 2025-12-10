@@ -609,6 +609,10 @@ export function PreMatchSection() {
     } else {
       setActiveMarket('resultado-final')
     }
+    // Reset market chips scroll position
+    if (marketChipsRef.current) {
+      marketChipsRef.current.scrollTo({ left: 0, behavior: 'smooth' })
+    }
   }, [activeSport])
 
   const openReiAntecipaSheet = (sport: 'futebol' | 'basquete') => {

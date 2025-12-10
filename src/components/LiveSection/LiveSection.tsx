@@ -592,6 +592,10 @@ export function LiveSection() {
     } else {
       setActiveMarket('resultado-final')
     }
+    // Reset market chips scroll position
+    if (marketChipsRef.current) {
+      marketChipsRef.current.scrollTo({ left: 0, behavior: 'smooth' })
+    }
   }, [activeSport])
 
   // Get current market chips and filtered leagues based on sport
