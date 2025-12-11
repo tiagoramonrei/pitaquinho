@@ -18,6 +18,9 @@ import bgAumentada from '../../assets/bgAumentada.png'
 import bgVirtuais from '../../assets/bgVirtuais.png'
 import bgAoVivoBasquete from '../../assets/aoVivoBasquete.png'
 import bgAoVivoTenis from '../../assets/aoVivoTenis.png'
+import bgLongoPrazo from '../../assets/longoPrazo.png'
+import bgCombinada from '../../assets/combinada.png'
+import iconCombinada from '../../assets/iconCombinada.png'
 import iconAoVivo from '../../assets/iconAoVivo.png'
 import iconTenis from '../../assets/iconTenis.png'
 import iconSaibaMais from '../../assets/iconSaibaMais.svg'
@@ -65,9 +68,14 @@ interface TennisMatch {
   odds: { player1: string; player2: string }
 }
 
+interface ComboStat {
+  value: string
+  label: string
+}
+
 interface Banner {
   id: number
-  type: 'missao' | '1x2' | 'torneio' | 'aumentada' | 'virtuais' | 'aoVivo' | 'aoVivoTenis'
+  type: 'missao' | '1x2' | 'torneio' | 'aumentada' | 'virtuais' | 'aoVivo' | 'aoVivoTenis' | 'longoPrazo' | 'combinada'
   headerLeft: string
   headerRight: string
   showTimer?: boolean
@@ -80,6 +88,7 @@ interface Banner {
   oddBoosted?: { old: string; new: string }
   liveMatch?: LiveMatch
   tennisMatch?: TennisMatch
+  comboStats?: ComboStat[]
 }
 
 const banners: Banner[] = [
@@ -110,6 +119,35 @@ const banners: Banner[] = [
       currentSet: '1º set',
       odds: { player1: '1.78x', player2: '1.78x' },
     },
+  },
+  {
+    id: 8,
+    type: 'longoPrazo',
+    headerLeft: 'Fecha 28/01',
+    headerRight: 'Campeonato Brasileiro',
+    background: bgLongoPrazo,
+    title: 'Campeão de 2026!',
+    description: 'Quem será o grande campeão do campeonato Brasileiro de 2026?',
+    odds: [
+      { team: 'Flamengo', value: '3.50x' },
+      { team: 'Palmeiras', value: '5.00x' },
+      { team: 'Cruzeiro', value: '6.00x' },
+    ],
+  },
+  {
+    id: 9,
+    type: 'combinada',
+    headerLeft: 'Hoje, 17:00',
+    headerRight: 'Chelsea x Arsenal',
+    background: bgCombinada,
+    title: 'Combo Palmer',
+    description: '',
+    comboStats: [
+      { value: '3+', label: 'Finalização ao Gol' },
+      { value: '2+', label: 'Assistências' },
+      { value: '5+', label: 'Finalização Totais' },
+    ],
+    oddBoosted: { old: '4.50x', new: '6.50x' },
   },
   {
     id: 1,
@@ -378,7 +416,7 @@ export function BannerCarousel() {
   useEffect(() => {
     // Só reseta se o autoplay estiver rodando (não durante interação manual)
     if (autoPlayRef.current) {
-      setProgressKey(prev => prev + 1)
+    setProgressKey(prev => prev + 1)
     }
   }, [activeIndex])
 
@@ -494,7 +532,7 @@ export function BannerCarousel() {
   const handleTouchEnd = () => {
     // Aguarda o scroll terminar antes de reiniciar o autoplay
     setTimeout(() => {
-      resetAutoPlay()
+    resetAutoPlay()
     }, 300)
   }
 
@@ -532,17 +570,17 @@ export function BannerCarousel() {
                 </>
               ) : (
                 <>
-                  <span className="banner-card__header-left">{banner.headerLeft}</span>
-                  <div className="banner-card__header-right">
-                    {banner.showTimer && <span className="banner-card__timer-dot" />}
-                    <span>{banner.headerRight}</span>
-                  </div>
+              <span className="banner-card__header-left">{banner.headerLeft}</span>
+              <div className="banner-card__header-right">
+                {banner.showTimer && <span className="banner-card__timer-dot" />}
+                <span>{banner.headerRight}</span>
+              </div>
                 </>
               )}
             </div>
 
             {/* Content */}
-            <div
+            <div 
               className={`banner-card__content ${banner.type === 'aoVivo' || banner.type === 'aoVivoTenis' ? 'banner-card__content--live' : ''}`}
               style={{ backgroundImage: `url(${banner.background})` }}
             >
@@ -630,98 +668,126 @@ export function BannerCarousel() {
                 </div>
               )}
 
-              {/* Regular Content */}
-              {banner.type !== 'aoVivo' && banner.type !== 'aoVivoTenis' && (
-                <div className={`banner-card__info ${banner.odds ? 'banner-card__info--full' : ''}`}>
-                  <div className="banner-card__text">
-                    <h3 className="banner-card__title">
-                      {banner.type === 'aumentada' && (
-                        <img src={iconAumentada} alt="" className="banner-card__boost-icon" />
-                      )}
-                      {banner.title}
-                    </h3>
-                    <p className="banner-card__description">
-                      {banner.description.split('\n').map((line, i) => (
-                        <span key={i}>{line}<br /></span>
+              {/* Combinada Content */}
+              {banner.type === 'combinada' && banner.comboStats && (
+                <div className="banner-card__combinada">
+                  <div className="banner-card__combinada-text">
+                    <div className="banner-card__combinada-title">
+                      <img src={iconCombinada} alt="" className="banner-card__combinada-icon" />
+                      <span>{banner.title}</span>
+                    </div>
+                    <div className="banner-card__combinada-stats">
+                      {banner.comboStats.map((stat, i) => (
+                        <div key={i} className="banner-card__combinada-stat">
+                          <span className="banner-card__combinada-stat-value">{stat.value}</span>
+                          <span className="banner-card__combinada-stat-dot">•</span>
+                          <span className="banner-card__combinada-stat-label">{stat.label}</span>
+                        </div>
                       ))}
-                    </p>
+                    </div>
                   </div>
-
-                  {/* Botões padrão */}
-                  {banner.buttonText && (
-                    <div className="banner-card__buttons">
-                      {banner.type === 'missao' && isMissionActivated(banner.id) ? (
-                        <button 
-                          className="banner-card__btn-activated"
-                          onClick={(e) => {
-                            e.stopPropagation()
-                            handleOpenMissionInfo(banner)
-                          }}
-                        >
-                          <div className="banner-card__btn-activated-left">
-                            <img src={iconAtivo} alt="" className="banner-card__btn-activated-icon" />
-                            <span>Acompanhar</span>
-                          </div>
-                          <div className="banner-card__btn-activated-divider" />
-                          <div className="banner-card__btn-activated-right">
-                            <span className="banner-card__btn-activated-label">Progresso</span>
-                            <span className="banner-card__btn-activated-value">
-                              R${getMissionProgress(banner.id)?.current || 0} de R${getMissionProgress(banner.id)?.target || 100}
-                            </span>
-                          </div>
-                        </button>
-                      ) : (
-                        <>
-                          <button 
-                            className="banner-card__btn"
-                            onClick={(e) => {
-                              e.stopPropagation()
-                              if (banner.type === 'missao') {
-                                handleActivateMission(banner.id, 100)
-                              }
-                            }}
-                          >
-                            {banner.buttonText}
-                          </button>
-                          {banner.showInfoBtn && (
-                            <button 
-                              className="banner-card__btn banner-card__btn--icon"
-                              onClick={(e) => {
-                                e.stopPropagation()
-                                if (banner.type === 'missao') {
-                                  handleOpenMissionInfo(banner)
-                                }
-                              }}
-                            >
-                              <img src={iconSaibaMais} alt="Saiba mais" />
-                            </button>
-                          )}
-                        </>
-                      )}
-                    </div>
-                  )}
-
-                  {/* Odds 1x2 */}
-                  {banner.odds && (
-                    <div className="banner-card__odds">
-                      {banner.odds.map((odd, i) => (
-                        <button key={i} className="banner-card__odd-btn">
-                          <span className="banner-card__odd-team">{odd.team}</span>
-                          <span className="banner-card__odd-value">{odd.value}</span>
-                        </button>
-                      ))}
-                    </div>
-                  )}
-
-                  {/* Odd aumentada */}
                   {banner.oddBoosted && (
-                    <button className="banner-card__boosted-btn">
-                      <span className="banner-card__old-odd">{banner.oddBoosted.old}</span>
-                      <img src={iconBoostWhite} alt="" className="banner-card__arrow" />
-                      <span className="banner-card__new-odd">{banner.oddBoosted.new}</span>
+                    <button className="banner-card__combinada-btn">
+                      <span className="banner-card__combinada-old-odd">{banner.oddBoosted.old}</span>
+                      <img src={iconBoostWhite} alt="" className="banner-card__combinada-arrow" />
+                      <span className="banner-card__combinada-new-odd">{banner.oddBoosted.new}</span>
                     </button>
                   )}
                 </div>
+              )}
+
+              {/* Regular Content */}
+              {banner.type !== 'aoVivo' && banner.type !== 'aoVivoTenis' && banner.type !== 'combinada' && (
+              <div className={`banner-card__info ${banner.odds ? 'banner-card__info--full' : ''}`}>
+                <div className="banner-card__text">
+                  <h3 className="banner-card__title">
+                    {banner.type === 'aumentada' && (
+                      <img src={iconAumentada} alt="" className="banner-card__boost-icon" />
+                    )}
+                    {banner.title}
+                  </h3>
+                  <p className="banner-card__description">
+                    {banner.description.split('\n').map((line, i) => (
+                      <span key={i}>{line}<br /></span>
+                    ))}
+                  </p>
+                </div>
+
+                {/* Botões padrão */}
+                {banner.buttonText && (
+                  <div className="banner-card__buttons">
+                    {banner.type === 'missao' && isMissionActivated(banner.id) ? (
+                      <button 
+                        className="banner-card__btn-activated"
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          handleOpenMissionInfo(banner)
+                        }}
+                      >
+                        <div className="banner-card__btn-activated-left">
+                          <img src={iconAtivo} alt="" className="banner-card__btn-activated-icon" />
+                          <span>Acompanhar</span>
+                        </div>
+                        <div className="banner-card__btn-activated-divider" />
+                        <div className="banner-card__btn-activated-right">
+                          <span className="banner-card__btn-activated-label">Progresso</span>
+                          <span className="banner-card__btn-activated-value">
+                            R${getMissionProgress(banner.id)?.current || 0} de R${getMissionProgress(banner.id)?.target || 100}
+                          </span>
+                        </div>
+                      </button>
+                    ) : (
+                      <>
+                        <button 
+                          className="banner-card__btn"
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            if (banner.type === 'missao') {
+                              handleActivateMission(banner.id, 100)
+                            }
+                          }}
+                        >
+                          {banner.buttonText}
+                        </button>
+                        {banner.showInfoBtn && (
+                          <button 
+                            className="banner-card__btn banner-card__btn--icon"
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              if (banner.type === 'missao') {
+                                handleOpenMissionInfo(banner)
+                              }
+                            }}
+                          >
+                            <img src={iconSaibaMais} alt="Saiba mais" />
+                          </button>
+                        )}
+                      </>
+                    )}
+                  </div>
+                )}
+
+                {/* Odds 1x2 */}
+                {banner.odds && (
+                  <div className="banner-card__odds">
+                    {banner.odds.map((odd, i) => (
+                      <button key={i} className="banner-card__odd-btn">
+                        <span className="banner-card__odd-team">{odd.team}</span>
+                        <span className="banner-card__odd-value">{odd.value}</span>
+                      </button>
+                    ))}
+                  </div>
+                )}
+
+                {/* Odd aumentada */}
+                {banner.oddBoosted && (
+                  <button className="banner-card__boosted-btn">
+                    <span className="banner-card__old-odd">{banner.oddBoosted.old}</span>
+                    <img src={iconBoostWhite} alt="" className="banner-card__arrow" />
+                    <span className="banner-card__new-odd">{banner.oddBoosted.new}</span>
+                  </button>
+                )}
+              </div>
               )}
             </div>
           </div>

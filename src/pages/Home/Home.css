@@ -12,7 +12,7 @@
   padding: 0;
 }
 
-/* Variante v3 - Remove dividers e reduz padding entre seções */
+/* Padrão e v2 - Sem dividers e padding reduzido (v3 mantém dividers originais) */
 .home--no-dividers .promotion-section,
 .home--no-dividers .offers-section,
 .home--no-dividers .live-section,

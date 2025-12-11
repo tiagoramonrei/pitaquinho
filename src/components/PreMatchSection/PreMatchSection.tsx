@@ -782,7 +782,7 @@ export function PreMatchSection() {
                                     className="prematch-section__rei-antecipa" 
                                   />
                                 </div>
-                                <span className="prematch-section__match-datetime">{match.dateTime}</span>
+                            <span className="prematch-section__match-datetime">{match.dateTime}</span>
                               </button>
                             ) : (
                               <div className="prematch-section__match-info-content">

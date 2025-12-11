@@ -30,7 +30,7 @@ export function Home() {
   }, [])
 
   return (
-    <div className={`home ${isVariant3 ? 'home--no-dividers' : ''}`}>
+    <div className={`home ${isVariant3 ? '' : 'home--no-dividers'}`}>
       <Header />
       <TrilhoEBanner />
       <ContentTabs />
@@ -41,8 +41,8 @@ export function Home() {
         </>
       ) : (
         <>
-          <PromotionSection />
-          <OffersSection />
+      <PromotionSection />
+      <OffersSection />
         </>
       )}
       <LiveSection />
