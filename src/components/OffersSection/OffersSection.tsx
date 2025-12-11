@@ -557,7 +557,7 @@ const allOffers: OfferCard[] = [
     tagLabel: 'Super Combinada',
     tagColor: '#d4a5ff',
     tagIcon: iconSuperCombinada,
-    subtitle: 'Só que faz mais de 100',
+    subtitle: 'Só quem faz mais de 100',
     oldOdd: '9.30x',
     newOdd: '12.80x',
     events: [
