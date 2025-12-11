@@ -29,13 +29,34 @@
   box-sizing: border-box;
 }
 
-html,
+html {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+  background-color: var(--color-background);
+  overscroll-behavior: none;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  touch-action: pan-x pan-y;
+  -webkit-touch-callout: none;
+}
+
 body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
+  min-height: -webkit-fill-available;
   background-color: var(--color-background);
-  overscroll-behavior-y: none; /* Desabilita o efeito rubber band no iOS */
+  overscroll-behavior: none;
+  touch-action: pan-x pan-y;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Previne zoom em double-tap e pinch */
+* {
+  touch-action: pan-x pan-y;
 }
 
 #root {
