@@ -51,8 +51,8 @@ interface FilterChip {
 
 const filterChips: FilterChip[] = [
   { id: 'melhores', label: 'As melhores' },
-  { id: 'super-combinadas', label: 'Super Combinadas' },
-  { id: 'combinadas', label: 'Combinadas' },
+  { id: 'super-Combinada', label: 'Super Combinada' },
+  { id: 'Combinada', label: 'Combinada' },
   { id: 'super-aumentada', label: 'Super Aumentada' },
   { id: 'aumentada', label: 'Aumentada' },
   { id: 'pechinchas', label: 'Pechinchas' },
@@ -61,7 +61,7 @@ const filterChips: FilterChip[] = [
 interface OfferCard {
   id: string
   type: 'combinada' | 'super_combinada' | 'super_aumentada' | 'aumentada' | 'pechincha'
-  category: 'melhores' | 'combinadas' | 'super-combinadas' | 'super-aumentada' | 'aumentada' | 'pechinchas'
+  category: 'melhores' | 'Combinada' | 'super-Combinada' | 'super-aumentada' | 'aumentada' | 'pechinchas'
   title: string
   tagLabel: string
   tagColor: string
@@ -170,7 +170,7 @@ const allOffers: OfferCard[] = [
     type: 'combinada',
     category: 'melhores',
     title: 'Jogo quente!',
-    tagLabel: 'Combinadas',
+    tagLabel: 'Combinada',
     tagColor: '#f07d87',
     tagIcon: iconCombinada,
     subtitle: 'Flamengo vs Cruzeiro',
@@ -204,13 +204,13 @@ const allOffers: OfferCard[] = [
     },
   },
 
-  // === COMBINADAS ===
+  // === Combinada ===
   {
     id: 'comb-0a',
     type: 'combinada',
-    category: 'combinadas',
+    category: 'Combinada',
     title: 'Chuva de gols!',
-    tagLabel: 'Combinadas',
+    tagLabel: 'Combinada',
     tagColor: '#f07d87',
     tagIcon: iconCombinada,
     subtitle: 'Equipes matadoras',
@@ -225,9 +225,9 @@ const allOffers: OfferCard[] = [
   {
     id: 'comb-0b',
     type: 'combinada',
-    category: 'combinadas',
+    category: 'Combinada',
     title: 'Jogo quente!',
-    tagLabel: 'Combinadas',
+    tagLabel: 'Combinada',
     tagColor: '#f07d87',
     tagIcon: iconCombinada,
     subtitle: 'Flamengo vs Cruzeiro',
@@ -243,9 +243,9 @@ const allOffers: OfferCard[] = [
   {
     id: 'comb-1',
     type: 'combinada',
-    category: 'combinadas',
+    category: 'Combinada',
     title: 'Clássico francês!',
-    tagLabel: 'Combinadas',
+    tagLabel: 'Combinada',
     tagColor: '#f07d87',
     tagIcon: iconCombinada,
     subtitle: 'PSG vs Lyon',
@@ -261,9 +261,9 @@ const allOffers: OfferCard[] = [
   {
     id: 'comb-2',
     type: 'combinada',
-    category: 'combinadas',
+    category: 'Combinada',
     title: 'Duelo brasileiro!',
-    tagLabel: 'Combinadas',
+    tagLabel: 'Combinada',
     tagColor: '#f07d87',
     tagIcon: iconCombinada,
     subtitle: 'Palmeiras vs Fluminense',
@@ -279,9 +279,9 @@ const allOffers: OfferCard[] = [
   {
     id: 'comb-3',
     type: 'combinada',
-    category: 'combinadas',
+    category: 'Combinada',
     title: 'Tripla campeã!',
-    tagLabel: 'Combinadas',
+    tagLabel: 'Combinada',
     tagColor: '#f07d87',
     tagIcon: iconCombinada,
     subtitle: 'Os favoritos para ganhar',
@@ -495,11 +495,11 @@ const allOffers: OfferCard[] = [
     },
   },
 
-  // === SUPER COMBINADAS ===
+  // === SUPER Combinada ===
   {
     id: 'scomb-1',
     type: 'super_combinada',
-    category: 'super-combinadas',
+    category: 'super-Combinada',
     title: 'Favoritos!',
     tagLabel: 'Super Combinada',
     tagColor: '#d4a5ff',
@@ -516,7 +516,7 @@ const allOffers: OfferCard[] = [
   {
     id: 'scomb-2',
     type: 'super_combinada',
-    category: 'super-combinadas',
+    category: 'super-Combinada',
     title: 'Pontos e mais pontos!',
     tagLabel: 'Super Combinada',
     tagColor: '#d4a5ff',
@@ -534,7 +534,7 @@ const allOffers: OfferCard[] = [
   {
     id: 'scomb-3',
     type: 'super_combinada',
-    category: 'super-combinadas',
+    category: 'super-Combinada',
     title: 'Rebotes!',
     tagLabel: 'Super Combinada',
     tagColor: '#d4a5ff',
@@ -552,9 +552,9 @@ const allOffers: OfferCard[] = [
   {
     id: 'scomb-4',
     type: 'super_combinada',
-    category: 'super-combinadas',
+    category: 'super-Combinada',
     title: 'Total de Pontos!',
-    tagLabel: 'Super Combinadas',
+    tagLabel: 'Super Combinada',
     tagColor: '#d4a5ff',
     tagIcon: iconSuperCombinada,
     subtitle: 'Só que faz mais de 100',
@@ -570,9 +570,9 @@ const allOffers: OfferCard[] = [
   {
     id: 'scomb-5',
     type: 'super_combinada',
-    category: 'super-combinadas',
+    category: 'super-Combinada',
     title: 'Garçom!',
-    tagLabel: 'Super Combinadas',
+    tagLabel: 'Super Combinada',
     tagColor: '#d4a5ff',
     tagIcon: iconSuperCombinada,
     subtitle: 'Warrios vs Lakers',
