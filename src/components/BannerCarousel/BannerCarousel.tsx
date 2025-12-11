@@ -20,7 +20,7 @@ import bgAoVivoBasquete from '../../assets/aoVivoBasquete.png'
 import bgAoVivoTenis from '../../assets/aoVivoTenis.png'
 import bgLongoPrazo from '../../assets/longoPrazo.png'
 import bgCombinada from '../../assets/combinada.png'
-import iconCombinada from '../../assets/iconCombinada.png'
+import iconSuperCombinada from '../../assets/iconSuperCombinada.png'
 import iconAoVivo from '../../assets/iconAoVivo.png'
 import iconTenis from '../../assets/iconTenis.png'
 import iconSaibaMais from '../../assets/iconSaibaMais.svg'
@@ -140,14 +140,14 @@ const banners: Banner[] = [
     headerLeft: 'Hoje, 17:00',
     headerRight: 'Chelsea x Arsenal',
     background: bgCombinada,
-    title: 'Combo Palmer',
+    title: 'Super Palmer',
     description: '',
     comboStats: [
       { value: '3+', label: 'Finalização ao Gol' },
       { value: '2+', label: 'Assistências' },
       { value: '5+', label: 'Finalização Totais' },
     ],
-    oddBoosted: { old: '4.50x', new: '6.50x' },
+    oddBoosted: { old: '7.50x', new: '10.50x' },
   },
   {
     id: 1,
@@ -673,7 +673,7 @@ export function BannerCarousel() {
                 <div className="banner-card__combinada">
                   <div className="banner-card__combinada-text">
                     <div className="banner-card__combinada-title">
-                      <img src={iconCombinada} alt="" className="banner-card__combinada-icon" />
+                      <img src={iconSuperCombinada} alt="" className="banner-card__combinada-icon" />
                       <span>{banner.title}</span>
                     </div>
                     <div className="banner-card__combinada-stats">

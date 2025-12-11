@@ -134,6 +134,7 @@
   color: #ffffff;
   margin: 0;
   line-height: 1.08;
+  height: 40px;
 }
 
 /* Buttons */
@@ -636,6 +637,7 @@
 .banner-card__combinada-stats {
   display: flex;
   flex-direction: column;
+  height: 40px;
 }
 
 .banner-card__combinada-stat {
@@ -656,6 +658,7 @@
   font-family: 'DM Sans', sans-serif;
   font-size: 10px;
   color: #ffffff;
+  line-height: 100%;
 }
 
 .banner-card__combinada-stat-label {

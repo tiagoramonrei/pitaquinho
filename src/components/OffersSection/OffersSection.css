@@ -146,6 +146,11 @@
   background: linear-gradient(to top right, rgba(30, 30, 30, 1) 0%, rgba(30, 30, 30, 1) 64%, rgba(32, 212, 144, 1) 100%);
 }
 
+/* Super Combinada - gradiente roxo */
+.offer-card--super-combinada::before {
+  background: linear-gradient(to top right, rgba(30, 30, 30, 1) 0%, rgba(30, 30, 30, 1) 64%, rgba(212, 165, 255, 1) 100%);
+}
+
 .offer-card__header {
   display: flex;
   align-items: center;
@@ -220,7 +225,7 @@
   top: 6px;
   bottom: 6px;
   width: 1px;
-  border-left: 1px dashed #646464;
+  border-left: 1px dashed rgba(255, 255, 255, 0.4);
   z-index: 0;
 }
 

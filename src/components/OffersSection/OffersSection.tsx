@@ -4,6 +4,7 @@ import './OffersSection.css'
 import iconOfertasRei from '../../assets/iconOfertasRei.png'
 import setaLink from '../../assets/setaLink.png'
 import iconCombinada from '../../assets/iconCombinada.png'
+import iconSuperCombinada from '../../assets/iconSuperCombinada.png'
 import iconSuperAumentada from '../../assets/iconSuperAumentada.png'
 import iconAumentada from '../../assets/iconAumentada.png'
 import iconPechincha from '../../assets/iconPechincha.png'
@@ -26,6 +27,9 @@ import escudo76ersGde from '../../assets/escudo76ersGde.png'
 import escudoWarriorsGde from '../../assets/escudoWarriosGde.png'
 import escudoBullsGde from '../../assets/escudoBullsGde.png'
 import escudoPistonsGde from '../../assets/escudoPistonsGde.png'
+import escudoMiami from '../../assets/escudoMiami.png'
+import escudoLakers from '../../assets/escudoLakers.png'
+import escudoCavaliers from '../../assets/escudoMagic.png' // Using Magic as placeholder for Cavaliers
 import iconBasquete from '../../assets/iconBasquete.png'
 import playerJimmyButler from '../../assets/playerJimmyButler.png'
 import playerLeBronJames from '../../assets/playerLeBronJames.png'
@@ -47,6 +51,7 @@ interface FilterChip {
 
 const filterChips: FilterChip[] = [
   { id: 'melhores', label: 'As melhores' },
+  { id: 'super-combinadas', label: 'Super Combinadas' },
   { id: 'combinadas', label: 'Combinadas' },
   { id: 'super-aumentada', label: 'Super Aumentada' },
   { id: 'aumentada', label: 'Aumentada' },
@@ -55,8 +60,8 @@ const filterChips: FilterChip[] = [
 
 interface OfferCard {
   id: string
-  type: 'combinada' | 'super_aumentada' | 'aumentada' | 'pechincha'
-  category: 'melhores' | 'combinadas' | 'super-aumentada' | 'aumentada' | 'pechinchas'
+  type: 'combinada' | 'super_combinada' | 'super_aumentada' | 'aumentada' | 'pechincha'
+  category: 'melhores' | 'combinadas' | 'super-combinadas' | 'super-aumentada' | 'aumentada' | 'pechinchas'
   title: string
   tagLabel: string
   tagColor: string
@@ -105,19 +110,19 @@ const allOffers: OfferCard[] = [
   // === AS MELHORES (default) ===
   {
     id: '1',
-    type: 'combinada',
+    type: 'super_combinada',
     category: 'melhores',
-    title: 'Chuva de gols na Europa!',
-    tagLabel: 'Combinadas',
-    tagColor: '#f07d87',
-    tagIcon: iconCombinada,
-    subtitle: 'Múltipla com 3 eventos',
-    oldOdd: '5.82x',
-    newOdd: '6.75x',
+    title: 'Favoritos!',
+    tagLabel: 'Super Combinada',
+    tagColor: '#d4a5ff',
+    tagIcon: iconSuperCombinada,
+    subtitle: 'NBA está fervendo',
+    oldOdd: '5.90x',
+    newOdd: '8.50x',
     events: [
-      { team1: 'Mais de 2.5', team1Icon: escudoManchesterCity, team2Icon: escudoLiverpool, market: 'Total de Gols' },
-      { team1: 'Mais de 1.5', team1Icon: escudoBayerLeverkusen, team2Icon: escudoBayerMunique, market: 'Total de Gols' },
-      { team1: 'Mais de 2.5', team1Icon: escudoPSG, team2Icon: escudoLyon, market: 'Total de Gols' },
+      { team1: 'Heat', team1Icon: escudoMiami, team2Icon: escudoBullsGde, market: 'Resultado Final' },
+      { team1: 'Lakers', team1Icon: escudoLakers, team2Icon: escudoWarriorsGde, market: 'Resultado Final' },
+      { team1: 'Pistons', team1Icon: escudoPistonsGde, team2Icon: escudoCavaliers, market: 'Resultado Final' },
     ],
   },
   {
@@ -204,11 +209,11 @@ const allOffers: OfferCard[] = [
     id: 'comb-0a',
     type: 'combinada',
     category: 'combinadas',
-    title: 'Chuva de gols na Europa!',
+    title: 'Chuva de gols!',
     tagLabel: 'Combinadas',
     tagColor: '#f07d87',
     tagIcon: iconCombinada,
-    subtitle: 'Múltipla com 3 eventos',
+    subtitle: 'Equipes matadoras',
     oldOdd: '5.82x',
     newOdd: '6.75x',
     events: [
@@ -279,7 +284,7 @@ const allOffers: OfferCard[] = [
     tagLabel: 'Combinadas',
     tagColor: '#f07d87',
     tagIcon: iconCombinada,
-    subtitle: 'Múltipla com 3 eventos',
+    subtitle: 'Os favoritos para ganhar',
     oldOdd: '4.85x',
     newOdd: '5.75x',
     events: [
@@ -488,6 +493,98 @@ const allOffers: OfferCard[] = [
       stat: 'assistências',
       statValue: 'Mais de 24.5',
     },
+  },
+
+  // === SUPER COMBINADAS ===
+  {
+    id: 'scomb-1',
+    type: 'super_combinada',
+    category: 'super-combinadas',
+    title: 'Favoritos!',
+    tagLabel: 'Super Combinada',
+    tagColor: '#d4a5ff',
+    tagIcon: iconSuperCombinada,
+    subtitle: 'NBA está fervendo',
+    oldOdd: '5.90x',
+    newOdd: '8.50x',
+    events: [
+      { team1: 'Heat', team1Icon: escudoMiami, team2Icon: escudoBullsGde, market: 'Resultado Final' },
+      { team1: 'Lakers', team1Icon: escudoLakers, team2Icon: escudoWarriorsGde, market: 'Resultado Final' },
+      { team1: 'Pistons', team1Icon: escudoPistonsGde, team2Icon: escudoCavaliers, market: 'Resultado Final' },
+    ],
+  },
+  {
+    id: 'scomb-2',
+    type: 'super_combinada',
+    category: 'super-combinadas',
+    title: 'Pontos e mais pontos!',
+    tagLabel: 'Super Combinada',
+    tagColor: '#d4a5ff',
+    tagIcon: iconSuperCombinada,
+    subtitle: 'Warrios vs Lakers',
+    date: 'Amanhã, 21:30',
+    oldOdd: '7.40x',
+    newOdd: '10.90x',
+    playerEvents: [
+      { icon: escudoWarriorsGde, name: 'Stephen Curry', value: '30+', market: 'Pontos' },
+      { icon: escudoWarriorsGde, name: 'Jimmy Butler', value: '22+', market: 'Pontos' },
+      { icon: escudoLakers, name: 'LeBron James', value: '40+', market: 'Pontos' },
+    ],
+  },
+  {
+    id: 'scomb-3',
+    type: 'super_combinada',
+    category: 'super-combinadas',
+    title: 'Rebotes!',
+    tagLabel: 'Super Combinada',
+    tagColor: '#d4a5ff',
+    tagIcon: iconSuperCombinada,
+    subtitle: 'Warrios vs Lakers',
+    date: 'Amanhã, 21:30',
+    oldOdd: '6.20x',
+    newOdd: '9.30x',
+    playerEvents: [
+      { icon: escudoLakers, name: 'LeBron James', value: '10+', market: 'Rebotes' },
+      { icon: escudoLakers, name: 'Luka Dončić', value: '10+', market: 'Rebotes' },
+      { icon: escudoWarriorsGde, name: 'Stephen Curry', value: '10+', market: 'Rebotes' },
+    ],
+  },
+  {
+    id: 'scomb-4',
+    type: 'super_combinada',
+    category: 'super-combinadas',
+    title: 'Total de Pontos!',
+    tagLabel: 'Super Combinadas',
+    tagColor: '#d4a5ff',
+    tagIcon: iconSuperCombinada,
+    subtitle: 'Só que faz mais de 100',
+    oldOdd: '9.30x',
+    newOdd: '12.80x',
+    events: [
+      { team1: 'Heat 110+', team1Icon: escudoMiami, team2Icon: escudoBullsGde, market: 'Total de Pontos' },
+      { team1: 'Lakers 110+', team1Icon: escudoLakers, team2Icon: escudoWarriorsGde, market: 'Total de Pontos' },
+      { team1: 'Pistons 110+', team1Icon: escudoPistonsGde, team2Icon: escudoCavaliers, market: 'Total de Pontos' },
+    ],
+    showViewAll: 5,
+  },
+  {
+    id: 'scomb-5',
+    type: 'super_combinada',
+    category: 'super-combinadas',
+    title: 'Garçom!',
+    tagLabel: 'Super Combinadas',
+    tagColor: '#d4a5ff',
+    tagIcon: iconSuperCombinada,
+    subtitle: 'Warrios vs Lakers',
+    date: 'Amanhã, 21:30',
+    oldOdd: '8.80x',
+    newOdd: '11.50x',
+    playerEvents: [
+      { icon: escudoLakers, name: 'LeBron James', value: '7+', market: 'Assistências' },
+      { icon: escudoLakers, name: 'Luka Dončić', value: '8+', market: 'Assistências' },
+      { icon: escudoLakers, name: 'Austin Reaves', value: '7+', market: 'Assistências' },
+    ],
+    showViewAll: 5,
   },
 
   // === PECHINCHAS ===
