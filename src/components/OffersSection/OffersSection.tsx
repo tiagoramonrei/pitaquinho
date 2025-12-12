@@ -551,7 +551,7 @@ const allOffers: OfferCard[] = [
   },
   {
     id: 'scomb-4',
-    type: 'super-combinada',
+    type: 'super_combinada',
     category: 'super-combinadas',
     title: 'Total de Pontos!',
     tagLabel: 'Super Combinadas',
@@ -569,7 +569,7 @@ const allOffers: OfferCard[] = [
   },
   {
     id: 'scomb-5',
-    type: 'super-combinada',
+    type: 'super_combinada',
     category: 'super-combinadas',
     title: 'Garçom!',
     tagLabel: 'Super Combinadas',
