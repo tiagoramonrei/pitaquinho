@@ -191,7 +191,7 @@ export function PromotionSection() {
                   <span className="promo-card__type">
                     {isActivated && progress && promo.type === 'missao' ? (
                       <span className="promo-card__progress">
-                        Progresso: <strong>R${progress.current}</strong> de <strong>R${progress.target}</strong>
+                        Progresso: <strong style={{ color: '#32A866' }}>R${progress.current} de R${progress.target}</strong>
                       </span>
                     ) : (
                       promo.type === 'missao' ? 'Missão' : 'Vantagem'
